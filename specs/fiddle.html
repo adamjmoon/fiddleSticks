@@ -1,0 +1,33 @@
+<link rel="stylesheet" type="text/css" href="http://bootswatch.com/cyborg/bootstrap.min.css">
+<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/knockout/2.2.1/knockout-min.js'></script>
+<script trc="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.5/require.min.js"></script>
+    
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="alert alert-info" data-bind="text: suiteDesc"></div>
+        <pre class="span11">
+            <code data-bind="text: jsUnderTest"></code>
+        </pre>
+
+        <table class="table span12">
+            <thead>
+                <tr>
+                    <th>expression</th>
+                    <th>should.equal</th>
+                    <th>actual</th>
+                    <th>typeof(actual)</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: tests">
+                <tr data-bind="css: shouldEqual === actual ? 'success' : 'error'">
+                    <td><code data-bind="text: expression"></code></td>
+                    <td><code data-bind="text: actual"></code></td>
+                    <td><code data-bind="text: shouldEqual"></code></td>
+                    <td><code data-bind="text: type"></code></td>
+                    <td><code data-bind="text: shouldBeA"></code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
