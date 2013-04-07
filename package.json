@@ -1,0 +1,30 @@
+{
+  "name": "jsFiddleSticks",
+  "version": "0.0.1",
+  "description": "simple test framework for validating javascript expressions and viewing results in succinct html table.",
+  "keywords": [
+    "jsfiddle",
+    "test",
+    "bdd",
+    "knockout",
+    "bootstrap"
+  ],
+  "author": "Adam Moon <itchcork@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/adamjmoon/jsFiddleTests.git"
+  }
+  "engines": {
+    "node": ">= 0.4.x"
+  },
+  "dependencies": {
+    "knockout": "*",
+    "growl": "1.7.x",
+  },
+  "devDependencies": {
+    "should": "*",
+    "mocha": "*",
+    "sinon": "*"
+    "coffee-script": "*"
+  }
+}

@@ -1,7 +1,7 @@
 define("TestSuite", [], function(test) {
-  return function(desc, code) {
+  return function(desc, js) {
     this.suiteDesc = ko.observable(desc);
-    this.jsUnderTest = ko.observable(code);
+    this.jsUnderTest = ko.observable(js);
     this.tests = ko.observableArray([]);
   };
 });
