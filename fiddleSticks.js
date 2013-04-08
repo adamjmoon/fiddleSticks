@@ -1,7 +1,7 @@
 define("Suite", [], function() {
   return function(desc, js) {
     this.suiteDesc = ko.observable(desc);
-    this.jsUnderTest = 'var jsUnderTest = ' + ko.observable(js) + '; var js = new jsUnderTest;';
+    this.jsUnderTest = ko.observable(js)
     this.tests = ko.observableArray([]);
   };
 });
