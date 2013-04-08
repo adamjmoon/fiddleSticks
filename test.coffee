@@ -1,5 +1,5 @@
 define "Test", [], ->
-  (shouldEqual, shouldBeA, expression) ->
+  (shouldEqual, expression) ->
     expressionStr = expression.toString()
     console.log expressionStr
     @expression = expressionStr.substring 25,expressionStr.length-3
