@@ -9,10 +9,11 @@ define("Suite", [], function() {
 define("Test", [], function() {
   return function(shouldEqual, expression) {
     var expressionStr;
+    var actual = expression();
     expressionStr = expression.toString();
-    this.expression = expressionStr.substring(25, expressionStr.length - 3);
-    this.typeOf = typeof (expression());
-    this.actual = expression();
+    this.expression = expressionStr.substring(25, expressionStr.length - 5);
+    this.typeOf = typeof (actual);
+    this.actual = actual;
     this.shouldEqual = shouldEqual;
   };
 });

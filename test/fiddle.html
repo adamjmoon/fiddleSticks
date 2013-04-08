@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="http://bootswatch.com/cyborg/bootstrap.min.css">
-<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/knockout/2.2.1/knockout-min.js'></script>
-<script trc="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.5/require.min.js"></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/knockout/2.2.1/knockout-min.js'></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.5/require.min.js"></script>
 
 <div class="container-fluid">
     <div class="row-fluid">
@@ -14,7 +14,7 @@
                     <th>expression</th>
                     <th>should.equal</th>
                     <th>actual</th>
-                    <th>typeof(actual)</th>
+                    <th>typeof</th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: tests">
@@ -22,9 +22,87 @@
                     <td><code data-bind="text: expression"></code></td>
                     <td><code data-bind="text: shouldEqual"></code></td>
                     <td><code data-bind="text: actual"></code></td>
-                    <td><code data-bind="text: type"></code></td>
+                    <td><code data-bind="text: typeOf"></code></td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
+
+<script>
+
+
+requirejs.config({
+  paths: {
+    'FiddleSticks': ["../fiddleSticks"]
+  }
+});
+
+require(['FiddleSticks'], function(FiddleSticks) {
+  var FS, js, jsUnderTest, s;
+  FS = new FiddleSticks();
+  jsUnderTest = function() {
+    var Rectangle, Shape;
+    Shape = function() {
+      this.x = 1;
+      this.y = 1;
+    };
+    Rectangle = function() {
+      return Shape.call(this);
+    };
+    Shape.prototype.move = function(x, y) {
+      this.x += x;
+      this.y += y;
+      return "Shape moved.";
+    };
+    Rectangle.prototype = Object.create(Shape.prototype);
+    return {
+      shape: new Shape(),
+      rectangle: new Rectangle(),
+      Shape: Shape,
+      Rectangle: Rectangle
+    };
+  };
+  js = new jsUnderTest();
+  s = new FS.Suite('Classical inheritance with Object.create', jsUnderTest.toString());
+  ko.applyBindings(s);
+  s.tests.push(new FS.Test('function', function() {
+    return typeof js.Rectangle;
+  }));
+  s.tests.push(new FS.Test(true, function() {
+    return js.rectangle instanceof js.Rectangle;
+  }));
+  s.tests.push(new FS.Test(1, function() {
+    return js.rectangle.x;
+  }));
+  s.tests.push(new FS.Test(1, function() {
+    return js.rectangle.y;
+  }));
+  s.tests.push(new FS.Test(1, function() {
+    return js.shape.x;
+  }));
+  s.tests.push(new FS.Test(1, function() {
+    return js.shape.y;
+  }));
+  s.tests.push(new FS.Test('object', function() {
+    return typeof js.rectangle;
+  }));
+  s.tests.push(new FS.Test('Shape moved.', function() {
+    return js.rectangle.move(1, 1);
+  }));
+  s.tests.push(new FS.Test(2, function() {
+    return js.rectangle.x;
+  }));
+  s.tests.push(new FS.Test(2, function() {
+    return js.rectangle.y;
+  }));
+  s.tests.push(new FS.Test(1, function() {
+    return js.shape.x;
+  }));
+  s.tests.push(new FS.Test(1, function() {
+    return js.shape.y;
+  }));
+});
+
+    
+</script>
