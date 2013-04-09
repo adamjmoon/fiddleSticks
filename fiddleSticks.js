@@ -13,8 +13,9 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	  console.log('Fastest is ' + _.pluck(this.filter('fastest'), 'name'));
 	});
 	self.add = function(shouldEqual, expression){
-    	self.tests.push(new Test(shouldEqual, expression, self.jsContext));
-    	self.benchmarkSuite.add(expression.toString(), function() { expression(self.jsContext);});
+		var test = new Test(shouldEqual, expression, self.jsContext);
+	    	self.tests.push(test);
+	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
     	return self;
     };
     
