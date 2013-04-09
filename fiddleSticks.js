@@ -8,8 +8,8 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.benchmarks = ko.observableArray([]);
 	self.benchmarkSuite = new Benchmark.Suite;
  	self.benchmarkSuite.on('cycle', function(event) {
- 	  self.benchmarkResults.push(event.target);	  
-	  console.log(self.benchmarkResults.platform.desc);
+ 	  self.benchmarks.push(event.target);	  
+	  console.log(self.benchmarks.platform.desc);
 	})
 	.on('complete', function() {
 	  console.log('Fastest is ' + _.pluck(this.filter('fastest'), 'name'));
