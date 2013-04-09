@@ -18,6 +18,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 		var test = new Test(shouldEqual, expression, self.jsContext);
 	    	self.tests.push(test);
 	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
+	};
 	    	
 	self.shouldShow = ko.observable(true);
     	return self;
