@@ -1,14 +1,17 @@
-<link rel="stylesheet" type="text/css" href="http://bootswatch.com/cyborg/bootstrap.min.css">
-<script src='http://cdnjs.cloudflare.com/ajax/libs/knockout/2.2.1/knockout-min.js'></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.5/require.min.js"></script>
+<body>
+<!--<applet code="nano" archive="https://raw.github.com/bestiejs/benchmark.js/master/nano.jar"></applet>--> 
+
+<head>
+    <link rel="stylesheet" type="text/css" href="http://bootswatch.com/cyborg/bootstrap.min.css">
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/knockout/2.2.1/knockout-min.js'></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.5/require.min.js"></script>
+</head>    
 
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="alert alert-info" data-bind="text: suiteDesc"></div>
-        <pre class="span11">
-            <code data-bind="text: jsUnderTest"></code>
-        </pre>
-        <table class="table span12">
+        <div class="alert alert-info span12" data-bind="text: suiteDesc"></div>
+        <pre class="span11"><code data-bind="text: jsContextStr"></code><br/>var c = jsContext();</pre>
+        <table class="table">
             <thead>
                 <tr>
                     <th>expression</th>
@@ -30,18 +33,20 @@
 </div>
 
 <script>
-
-
 requirejs.config({
   paths: {
-    'FiddleSticks': ["../fiddleSticks"]
+    'FiddleSticks': '../fiddleSticks',
+    'benchmark' : 'https://raw.github.com/bestiejs/benchmark.js/master/benchmark',
+    'lodash' : 'https://raw.github.com/bestiejs/benchmark.js/master/vendor/lodash/lodash',
+    'platform' : 'https://raw.github.com/bestiejs/benchmark.js/master/vendor/platform.js/platform'
+  
   }
 });
 
 require(['FiddleSticks'], function(FiddleSticks) {
-  var FS, js, jsUnderTest, s;
-  FS = new FiddleSticks();
-  jsUnderTest = function() {
+ var FS, s;
+ FS = new FiddleSticks();
+ function jsContext() {
     var Rectangle, Shape;
     Shape = function() {
       this.x = 1;
@@ -63,46 +68,28 @@ require(['FiddleSticks'], function(FiddleSticks) {
       Rectangle: Rectangle
     };
   };
-  js = new jsUnderTest();
-  s = new FS.Suite('Classical inheritance with Object.create', jsUnderTest.toString());
+  
+  s = new FS.Suite('Classical inheritance with Object.create', jsContext);
   ko.applyBindings(s);
-  s.tests.push(new FS.Test('function', function() {
-    return typeof js.Rectangle;
-  }));
-  s.tests.push(new FS.Test(true, function() {
-    return js.rectangle instanceof js.Rectangle;
-  }));
-  s.tests.push(new FS.Test(1, function() {
-    return js.rectangle.x;
-  }));
-  s.tests.push(new FS.Test(1, function() {
-    return js.rectangle.y;
-  }));
-  s.tests.push(new FS.Test(1, function() {
-    return js.shape.x;
-  }));
-  s.tests.push(new FS.Test(1, function() {
-    return js.shape.y;
-  }));
-  s.tests.push(new FS.Test('object', function() {
-    return typeof js.rectangle;
-  }));
-  s.tests.push(new FS.Test('Shape moved.', function() {
-    return js.rectangle.move(1, 1);
-  }));
-  s.tests.push(new FS.Test(2, function() {
-    return js.rectangle.x;
-  }));
-  s.tests.push(new FS.Test(2, function() {
-    return js.rectangle.y;
-  }));
-  s.tests.push(new FS.Test(1, function() {
-    return js.shape.x;
-  }));
-  s.tests.push(new FS.Test(1, function() {
-    return js.shape.y;
-  }));
+  
+  s.add(true, function(c) {return c.rectangle instanceof c.Rectangle;})
+   .add(true, function(c) {return c.rectangle instanceof c.Shape;})
+   .add('function', function(c) {return typeof c.Rectangle;})
+   .add(1, function(c) {return c.rectangle.x;})
+   .add(1, function(c) {return c.rectangle.y;})
+   .add(1, function(c) {return c.shape.x;})
+   .add(1, function(c) {return c.shape.y;})
+   .add('object', function(c) {return typeof c.rectangle;})
+   .add('Shape moved.', function(c) {return c.rectangle.move(1, 1);})
+   .add(2, function(c) {return c.rectangle.x;})
+   .add(2, function(c) {return c.rectangle.y;})
+   .add(1, function(c) {return c.shape.x;})
+   .add(1, function(c) {return c.shape.y;});
+    
+    s.benchmarkSuite.run({ 'async': true });
+
 });
 
     
 </script>
+</body>
