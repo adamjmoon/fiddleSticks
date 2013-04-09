@@ -5,8 +5,10 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.jsContext = js();
 	self.jsContextStr = ko.observable(js.toString());
 	self.tests = ko.observableArray([]);
+	self.benchmarkResults = ko.observableArray([]);
 	self.benchmarkSuite = new Benchmark.Suite;
  	self.benchmarkSuite.on('cycle', function(event) {
+ 	  self.benchmarkResults.push({result: event.target});
 	  console.log(String(event.target));
 	})
 	.on('complete', function() {
