@@ -21,9 +21,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	};
 	    	
 	self.shouldShow = ko.observable(true);
-    	return self;
-    };
-    
+    	return self;   
   };
 });
 
