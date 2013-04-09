@@ -5,6 +5,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.jsContext = js();
 	self.jsContextStr = ko.observable(js.toString());
 	self.tests = ko.observableArray([]);
+	self.shouldShow = ko.observable(true);
 	self.benchmarks = ko.observableArray([]);
 	self.benchmarkSuite = new Benchmark.Suite;
  	self.benchmarkSuite.on('cycle', function(event) {
@@ -18,9 +19,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 		var test = new Test(shouldEqual, expression, self.jsContext);
 	    	self.tests.push(test);
 	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
-	};
 	    	
-	self.shouldShow = ko.observable(true);
     	return self;   
   };
 });
