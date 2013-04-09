@@ -1,6 +1,6 @@
 define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
   return function(desc, js) {
-  	var self = this;
+  	var self = this;  
 	self.suiteDesc = ko.observable(desc);
 	self.jsContext = js();
 	self.jsContextStr = ko.observable(js.toString());
@@ -18,6 +18,8 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 		var test = new Test(shouldEqual, expression, self.jsContext);
 	    	self.tests.push(test);
 	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
+	    	
+	self.ready = ko.observable(true);
     	return self;
     };
     
