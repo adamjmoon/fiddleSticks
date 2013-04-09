@@ -19,7 +19,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	    	self.tests.push(test);
 	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
 	    	
-	self.ready = ko.observable(true);
+	self.shouldShow = ko.observable(true);
     	return self;
     };
     
