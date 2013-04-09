@@ -1,23 +1,20 @@
 define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
   return function(desc, js) {
   	var self = this;
-    self.suiteDesc = ko.observable(desc);
-    self.jsContext = js();
+	self.suiteDesc = ko.observable(desc);
+	self.jsContext = js();
 	self.jsContextStr = ko.observable(js.toString());
-    self.tests = ko.observableArray([]);
-    self.benchmarkSuite = new Benchmark.Suite;
+	self.tests = ko.observableArray([]);
+	self.benchmarkSuite = new Benchmark.Suite;
  	self.benchmarkSuite.on('cycle', function(event) {
 	  console.log(String(event.target));
 	})
 	.on('complete', function() {
 	  console.log('Fastest is ' + _.pluck(this.filter('fastest'), 'name'));
-	})
-	
+	});
 	self.add = function(shouldEqual, expression){
     	self.tests.push(new Test(shouldEqual, expression, self.jsContext));
-    	self.benchmarkSuite.add(expression.toString(), function() {
-											  expression(self.jsContext);
-											});
+    	self.benchmarkSuite.add(expression.toString(), function() { expression(self.jsContext);});
     	return self;
     };
     
@@ -41,12 +38,11 @@ define("Spy", [], function() {
 			G.calls.push(args);
 			F.apply(this, args);
 		}
-
+	
 		G.prototype = F.prototype;
 		G.calls = [];
-
-		return G;
 	
+		return G;
   };
 });
 
@@ -78,8 +74,6 @@ define("Verify", [], function() {
 		};
 	};
 });
-
-
 
 define("FiddleSticks", ['Suite', 'Test', 'Spy', 'Verify'], function(Suite, Test, Spy, Verify) {
   function FiddleSticks() {};
