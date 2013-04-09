@@ -5,11 +5,12 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.jsContext = js();
 	self.jsContextStr = ko.observable(js.toString());
 	self.tests = ko.observableArray([]);
-	self.benchmarkResults = ko.observableArray([]);
+	self.benchmarks = ko.observableArray([]);
 	self.benchmarkSuite = new Benchmark.Suite;
  	self.benchmarkSuite.on('cycle', function(event) {
- 	  self.benchmarkResults.push({result: event.target});
+ 	  self.benchmarkResults.push(event.target);
 	  console.log(event.target);
+	  console.log(self.benchmarkResults.platform.desc);
 	})
 	.on('complete', function() {
 	  console.log('Fastest is ' + _.pluck(this.filter('fastest'), 'name'));
