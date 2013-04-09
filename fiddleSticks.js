@@ -9,7 +9,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.benchmarkSuite = new Benchmark.Suite;
  	self.benchmarkSuite.on('cycle', function(event) {
  	  self.benchmarks.push(event.target);	  
-	  console.log(event.target.platform.desc);
+	  console.log(event.target.platform);
 	})
 	.on('complete', function() {
 	  console.log('Fastest is ' + _.pluck(this.filter('fastest'), 'name'));
