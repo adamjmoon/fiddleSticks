@@ -13,8 +13,10 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
  	  self.benchmarks.push(event.target);
 	})
 	.on('complete', function() {
-	  console.log(this.filter('fastest'));
+	   var slowest = this.filter('slowest');
+	   slowest['slowest'] = true;
 	});
+	self.benchmarkResult 
 	
 	self.add = function(shouldEqual, expression){
 		var test = new Test(shouldEqual, expression, self.jsContext);
