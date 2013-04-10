@@ -6,16 +6,18 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.jsContextStr = ko.observable(js.toString());
 	self.tests = ko.observableArray([]);
 	self.shouldShow = ko.observable(true);
-	self.benchmarkDictionary=new Array();
-	self.benchmarks = ko.observableArray(self.benchmarkDictionary);
+	self.benchmarkIndex=0;
+	self.benchmarks = ko.observableArray([]);
 	self.benchmarkSuite = new Benchmark.Suite;
 	self.benchmarkPlatform = new ko.observable(Benchmark.platform.desc);
  	self.benchmarkSuite.on('cycle', function(event) {
-          event.target.slowest=false;         
- 	  self.benchmarkDictionary[event.target.name] = event.target; 	 
+          event.target.slowest=false;        
+ 	  event.target.benchmarkIndex = self.benchmarkIndex;
+ 	  self.benchmarkIndex+=1;
+ 	  self.benchmarks[benchmarkIndex] = event.target; 
 	})
 	.on('complete', function() {	   
-	   self.benchmarkDictionary[this.filter('slowest')[0].name].slowest = true;
+	   self.benchmarks[this.filter('slowest')[0].benchmarkIndex].slowest = true;
 	});
 	
 	self.add = function(shouldEqual, expression){
