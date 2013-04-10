@@ -4,21 +4,23 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.suiteDesc = ko.observable(desc);
 	self.jsContext = js();
 	self.jsContextStr = ko.observable(js.toString());
-	self.tests = ko.observableArray([]);
+	self.tests = ko.observableArray(new Array());
+
 	self.shouldShow = ko.observable(true);
 	self.benchmarks = ko.observableArray([]);
 	self.benchmarkSuite = new Benchmark.Suite;
 	self.benchmarkPlatform = new ko.observable(self.benchmarkSuite.Platform);
  	self.benchmarkSuite.on('cycle', function(event) {
- 	  self.benchmarks[self.benchmarks.length] = event.target;
+ 	  self.benchmarks.push(event.target);
 	})
 	.on('complete', function() {
 //	  console.log('Fastest is ' + _.pluck(this.filter('fastest'), 'name'));
 	});
-	self.index=-1;
+	self.index=0;
 	self.add = function(shouldEqual, expression){
 		var test = new Test(shouldEqual, expression, self.jsContext);
-	    	self.tests[self.index+=1] = test;
+	    	self.tests()[index] = test;
+	    	self.index+=1;
 	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
     		return self;   
 	};    	
