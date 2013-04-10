@@ -15,10 +15,10 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	.on('complete', function() {
 //	  console.log('Fastest is ' + _.pluck(this.filter('fastest'), 'name'));
 	});
-	self.index=0;
+	self.index=-1;
 	self.add = function(shouldEqual, expression){
 		var test = new Test(shouldEqual, expression, self.jsContext);
-	    	self.tests[self.tests.length] = test;
+	    	self.tests[self.index+=1] = test;
 	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
     		return self;   
 	};    	
