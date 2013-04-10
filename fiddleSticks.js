@@ -19,7 +19,8 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.index=0;
 	self.add = function(shouldEqual, expression){
 		var test = new Test(shouldEqual, expression, self.jsContext);
-	    	self.tests()[self.index] = test;
+	    	self.tests[self.index] = test;
+	    	console.log(self.tests);
 	    	self.index+=1;
 	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
     		return self;   
