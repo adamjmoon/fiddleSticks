@@ -15,7 +15,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
  	  self.benchmarkDictionary[event.target.name](event.target); 	 
 	})
 	.on('complete', function() {	   
-	   self.benchmarkDictionarythis.filter('slowest').name].slowest = true;
+	   self.benchmarkDictionary[this.filter('slowest').name].slowest = true;
 	});
 	
 	self.add = function(shouldEqual, expression){
