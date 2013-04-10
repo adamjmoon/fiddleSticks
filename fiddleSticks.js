@@ -13,8 +13,8 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
  	self.benchmarkSuite.on('cycle', function(event) {
           event.target.slowest=false;        
  	  event.target.benchmarkIndex = self.benchmarkIndex;
+ 	  self.benchmarks()[self.benchmarkIndex] = event.target; 
  	  self.benchmarkIndex+=1;
- 	  self.benchmarks.push(event.target); 
 	})
 	.on('complete', function() {	   
 	   self.benchmarks()[this.filter('slowest')[0].benchmarkIndex].slowest = true;
