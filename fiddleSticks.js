@@ -8,12 +8,12 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.shouldShow = ko.observable(true);
 	self.benchmarks = ko.observableArray([]);
 	self.benchmarkSuite = new Benchmark.Suite;
+	self.benchmarkPlatform = new ko.observable(self.benchmarkSuite.Platform);
  	self.benchmarkSuite.on('cycle', function(event) {
- 	  self.benchmarks.push(event.target);	  
-	  console.log(event.target.platform);
+ 	  self.benchmarks[event.target.name](event.target);
 	})
 	.on('complete', function() {
-	  console.log('Fastest is ' + _.pluck(this.filter('fastest'), 'name'));
+//	  console.log('Fastest is ' + _.pluck(this.filter('fastest'), 'name'));
 	});
 	self.add = function(shouldEqual, expression){
 		var test = new Test(shouldEqual, expression, self.jsContext);
