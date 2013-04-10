@@ -5,7 +5,6 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.jsContext = js();
 	self.jsContextStr = ko.observable(js.toString());
 	self.tests = ko.observableArray(new Array());
-
 	self.shouldShow = ko.observable(true);
 	self.benchmarks = ko.observableArray([]);
 	self.benchmarkSuite = new Benchmark.Suite;
@@ -19,7 +18,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.index=0;
 	self.add = function(shouldEqual, expression){
 		var test = new Test(shouldEqual, expression, self.jsContext);
-	    	self.tests[self.index] = test;
+	    	self.tests.push(test);
 	    	console.log(self.tests);
 	    	self.index+=1;
 	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
