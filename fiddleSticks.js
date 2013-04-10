@@ -9,7 +9,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.benchmarkIndex=0;
 	self.benchmarks = ko.observableArray([]);
 	self.benchmarkSuite = new Benchmark.Suite;
-	self.benchmarkPlatform = new ko.observable(Benchmark.platform.desc);
+	self.benchmarkPlatform = ko.observable(Benchmark.platform.desc);
  	self.benchmarkSuite.on('cycle', function(event) {
           event.target.slowest=false;        
  	  event.target.benchmarkIndex = self.benchmarkIndex;
