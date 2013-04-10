@@ -10,6 +10,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.benchmarkSuite = new Benchmark.Suite;
 	self.benchmarkPlatform = new ko.observable(Benchmark.platform.desc);
  	self.benchmarkSuite.on('cycle', function(event) {
+          event.target['slowest']=false;
  	  self.benchmarks.push(event.target);
 	})
 	.on('complete', function() {
