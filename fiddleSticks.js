@@ -14,7 +14,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
           event.target.slowest=false;        
  	  event.target.benchmarkIndex = self.benchmarkIndex;
  	  self.benchmarkIndex+=1;
- 	  self.benchmarks[self.benchmarkIndex] = event.target; 
+ 	  self.benchmarks.push(event.target); 
 	})
 	.on('complete', function() {	   
 	   self.benchmarks[this.filter('slowest')[0].benchmarkIndex].slowest = true;
