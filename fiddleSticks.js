@@ -10,7 +10,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.benchmarkSuite = new Benchmark.Suite;
 	self.benchmarkPlatform = new ko.observable(self.benchmarkSuite.Platform);
  	self.benchmarkSuite.on('cycle', function(event) {
- 	  self.benchmarks[self.benchmarks.length](event.target);
+ 	  self.benchmarks[self.benchmarks.length] = event.target;
 	})
 	.on('complete', function() {
 //	  console.log('Fastest is ' + _.pluck(this.filter('fastest'), 'name'));
