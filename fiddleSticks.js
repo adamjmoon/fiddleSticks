@@ -12,8 +12,8 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.benchmarkPlatform = ko.observable(Benchmark.platform.description);
 	self.benchmarkSuite.on('start', function() {
 		self.benchmarks(new Array(self.benchmarkSuite.length));
-	}
- 	self.benchmarkSuite.on('cycle', function(event) {
+	})
+ 	.on('cycle', function(event) {
           event.target.slowest=false;        
  	  event.target.benchmarkIndex = self.benchmarkIndex;
  	  self.benchmarks()[self.benchmarkIndex](event.target); 
