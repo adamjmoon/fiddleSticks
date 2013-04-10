@@ -7,17 +7,19 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.tests = ko.observableArray([]);
 	self.shouldShow = ko.observable(true);
 	self.benchmarks = ko.observableArray([]);
+	self.benchmarkCounter=0;
 	self.benchmarkSuite = new Benchmark.Suite;
 	self.benchmarkPlatform = new ko.observable(Benchmark.platform.desc);
  	self.benchmarkSuite.on('cycle', function(event) {
           event.target['slowest']=false;
+          event.target['index'] = self.benchmarkCounter;
  	  self.benchmarks.push(event.target);
+ 	  self.benchmarkCounter+=1;
 	})
 	.on('complete', function() {
 	   var slowest = this.filter('slowest');
-	   slowest['slowest'] = true;
+	   self.benchmarks[slowest['index']].slowest = true;
 	});
-	self.benchmarkResult 
 	
 	self.add = function(shouldEqual, expression){
 		var test = new Test(shouldEqual, expression, self.jsContext);
