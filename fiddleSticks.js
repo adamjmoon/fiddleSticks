@@ -8,7 +8,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.shouldShow = ko.observable(true);
 	self.benchmarks = ko.observableArray([]);
 	self.benchmarkSuite = new Benchmark.Suite;
-	self.benchmarkPlatform = new ko.observable(self.benchmarkSuite.Platform);
+	self.benchmarkPlatform = new ko.observable(Benchmark.platform.description);
  	self.benchmarkSuite.on('cycle', function(event) {
  	  self.benchmarks.push(event.target);
 	})
