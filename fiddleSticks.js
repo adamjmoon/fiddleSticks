@@ -12,7 +12,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.benchmarkPlatform = new ko.observable(Benchmark.platform.desc);
  	self.benchmarkSuite.on('cycle', function(event) {
           event.target.slowest=false;         
- 	  self.benchmarkDictionary[event.target.name](event.target); 	 
+ 	  self.benchmarkDictionary[event.target.name] = event.target; 	 
 	})
 	.on('complete', function() {	   
 	   self.benchmarkDictionary[this.filter('slowest').name].slowest = true;
