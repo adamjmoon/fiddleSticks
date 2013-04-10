@@ -4,7 +4,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.suiteDesc = ko.observable(desc);
 	self.jsContext = js();
 	self.jsContextStr = ko.observable(js.toString());
-	self.tests = ko.observableArray(new Array());
+	self.tests = ko.observableArray([]);
 	self.shouldShow = ko.observable(true);
 	self.benchmarks = ko.observableArray([]);
 	self.benchmarkSuite = new Benchmark.Suite;
