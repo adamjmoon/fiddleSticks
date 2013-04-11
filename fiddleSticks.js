@@ -23,7 +23,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	   fastestBenchmark.fastest = true;
 	   self.benchmarks.remove(slowestBenchmark);
 	   self.benchmarks.remove(fastestBenchmark);
-	   var benchmarksCopy = self.benchmarks();
+	   var benchmarksCopy = self.benchmarks().slice();
 	   self.benchmarks.removeAll();
 	   
 	   function timesFaster(benchmarkHz, slowestHz){
