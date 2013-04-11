@@ -6,22 +6,36 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.jsContextStr = ko.observable(js.toString());
 	self.tests = ko.observableArray([]);
 	self.shouldShow = ko.observable(true);
-	
-	self.benchmarkIndex=0;
 	self.benchmarks = ko.observableArray([]);
 	self.benchmarkSuite = new Benchmark.Suite;
 	self.benchmarkPlatform = ko.observable(Benchmark.platform.description);
  	self.benchmarkSuite.on('cycle', function(event) {
-          event.target.slowest=false;        
- 	  event.target.benchmarkIndex = self.benchmarkIndex;
- 	  self.benchmarks.push(event.target); 
- 	  self.benchmarkIndex+=1;
+          event.target.slowest=false;
+          event.target.fastest=false;
+          event.target.compare=false;
+ 	  self.benchmarks.push(event.target);
 	})
 	.on('complete', function() {
-	   
 	   var slowestBenchmark = this.filter('slowest')[0];
-	   self.benchmarks.remove(slowestBenchmark);
 	   slowestBenchmark.slowest = true;
+	   var slowestHz = slowestBenchmark.hz;
+	   var fastestBenchmark = this.filter('slowest')[0];	   
+	   fastestBenchmark.fastest = true;
+	   self.benchmarks.remove(slowestBenchmark);
+	   self.benchmarks.remove(fastestBenchmark);
+	   var benchmarksCopy = self.benchmarks();
+	   self.benchmarks.removeAll();
+	   
+	   function compare(benchmarkHz, slowestHz){
+	   	return (benchmarkHz/slowestHz).toFixed(1);
+	   }
+	   
+	   fastestBenchmark.compare = compare(fastestBenchmark.hz, slowestHz);
+	   self.benchmarks.push(fastestBenchmark);	   
+	   for (var i = 0; i < benchmarksCopy.lenth; i++) {
+	        benchmarksCopy[i].compare = compare(benchmarksCopy[i].hz, slowestHz);
+	        self.benchmarks.push(benchmarksCopy[i]); 
+	   }	   
 	   self.benchmarks.push(slowestBenchmark);
 	});
 	
