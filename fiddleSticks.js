@@ -19,7 +19,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	   var slowestBenchmark = this.filter('slowest')[0];
 	   slowestBenchmark.slowest = true;
 	   var slowestHz = slowestBenchmark.hz;
-	   var fastestBenchmark = this.filter('slowest')[0];	   
+	   var fastestBenchmark = this.filter('fastest')[0];	   
 	   fastestBenchmark.fastest = true;
 	   self.benchmarks.remove(slowestBenchmark);
 	   self.benchmarks.remove(fastestBenchmark);
