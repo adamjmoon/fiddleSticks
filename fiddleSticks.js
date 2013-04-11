@@ -12,7 +12,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
  	self.benchmarkSuite.on('cycle', function(event) {
           event.target.slowest=false;
           event.target.fastest=false;
-          event.target.compare=false;
+          event.target.timesFaster=false;
  	  self.benchmarks.push(event.target);
 	})
 	.on('complete', function() {
@@ -26,11 +26,11 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	   var benchmarksCopy = self.benchmarks();
 	   self.benchmarks.removeAll();
 	   
-	   function compare(benchmarkHz, slowestHz){
+	   function timesFaster(benchmarkHz, slowestHz){
 	   	return (benchmarkHz/slowestHz).toFixed(1);
 	   }
 	   
-	   fastestBenchmark.compare = compare(fastestBenchmark.hz, slowestHz);
+	   fastestBenchmark.timesFaster = timesFaster(fastestBenchmark.hz, slowestHz);
 	   self.benchmarks.push(fastestBenchmark);	   
 	   for (var i = 0; i < benchmarksCopy.lenth; i++) {
 	        benchmarksCopy[i].compare = compare(benchmarksCopy[i].hz, slowestHz);
