@@ -6,6 +6,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.jsContextStr = ko.observable(js.toString());
 	self.tests = ko.observableArray([]);
 	self.shouldShow = ko.observable(true);
+	
 	self.benchmarkIndex=0;
 	self.benchmarks = ko.observableArray([]);
 	self.benchmarkSuite = new Benchmark.Suite;
@@ -17,9 +18,11 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
  	  self.benchmarkIndex+=1;
 	})
 	.on('complete', function() {
-	   var array = self.benchmarks();
-	   array[this.filter('slowest')[0].benchmarkIndex].slowest = true;
-	   self.benchmarks()(array);
+	   
+	   var slowestBenchmark = this.filter('slowest')[0]
+	   self.benchmarks.remove(slowest)
+	   slowestBenchmark.slowest = true;
+	   self.benchmarks.push(slowestBenchmark);
 	});
 	
 	self.add = function(shouldEqual, expression){
@@ -27,7 +30,6 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	    	self.tests.push(test);
 	    	self.index+=1;
 	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
-    		
 	};    	
   };
 });
