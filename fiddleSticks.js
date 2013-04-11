@@ -16,8 +16,10 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
  	  self.benchmarks.push(event.target); 
  	  self.benchmarkIndex+=1;
 	})
-	.on('complete', function() {	   
-	   self.benchmarks()[this.filter('slowest')[0].benchmarkIndex].slowest(true);
+	.on('complete', function() {
+	   var array = self.benchmarks();
+	   array[this.filter('slowest')[0].benchmarkIndex].slowest = true;
+	   self.benchmarks(array);
 	});
 	
 	self.add = function(shouldEqual, expression){
