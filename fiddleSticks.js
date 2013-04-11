@@ -30,6 +30,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	    	self.tests.push(test);
 	    	self.index+=1;
 	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
+	    	return self;
 	};    	
   };
 });
