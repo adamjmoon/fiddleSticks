@@ -19,8 +19,8 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	})
 	.on('complete', function() {
 	   
-	   var slowestBenchmark = this.filter('slowest')[0]
-	   self.benchmarks.remove(slowest)
+	   var slowestBenchmark = this.filter('slowest')[0];
+	   self.benchmarks.remove(slowestBenchmark);
 	   slowestBenchmark.slowest = true;
 	   self.benchmarks.push(slowestBenchmark);
 	});
