@@ -7,6 +7,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.tests = ko.observableArray([]);
 	self.shouldShow = ko.observable(true);
 	self.benchmarks = ko.observableArray([]);
+	self.benchmarksStatus = ko.observable();
 	self.benchmarkSuite = new Benchmark.Suite;
 	self.benchmarkPlatform = ko.observable(Benchmark.platform.description);
 	ko.applyBindings(self);
@@ -38,6 +39,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	        self.benchmarks.push(benchmarksCopy[i]); 
 	   }	   
 	   self.benchmarks.push(slowestBenchmark);
+	   self.benchmarksStatus('Completed');
 	});
 	
 	self.add = function(shouldEqual, expression){
@@ -49,6 +51,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	
 	self.run = function(){
 		self.benchmarkSuite.run({ 'async': true });
+		self.benchmarksStatus('Running');
 	}
   };
 });
