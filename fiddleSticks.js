@@ -27,7 +27,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	   self.benchmarks.removeAll();
 	   
 	   function timesFaster(benchmarkHz, slowestHz){
-	   	return (benchmarkHz/slowestHz).toFixed(1);
+	   	return (benchmarkHz/slowestHz).toFixed(2);
 	   }
 	   
 	   fastestBenchmark.timesFaster = timesFaster(fastestBenchmark.hz, slowestHz);
@@ -44,7 +44,11 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	    	self.tests.push(test);	    	
 	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
 	    	return self;
-	};    	
+	};
+	
+	self.run = function(){
+		self.benchmarkSuite.run({ 'async': true });
+	}
   };
 });
 
