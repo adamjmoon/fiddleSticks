@@ -33,7 +33,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	   fastestBenchmark.timesFaster = timesFaster(fastestBenchmark.hz, slowestHz);
 	   self.benchmarks.push(fastestBenchmark);	   
 	   for (var i = 0; i < benchmarksCopy.length; i++) {
-	        benchmarksCopy[i].compare = compare(benchmarksCopy[i].hz, slowestHz);
+	        benchmarksCopy[i].timesFaster = timesFaster(benchmarksCopy[i].hz, slowestHz);
 	        self.benchmarks.push(benchmarksCopy[i]); 
 	   }	   
 	   self.benchmarks.push(slowestBenchmark);
