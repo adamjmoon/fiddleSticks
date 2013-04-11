@@ -41,8 +41,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	
 	self.add = function(shouldEqual, expression){
 		var test = new Test(shouldEqual, expression, self.jsContext);
-	    	self.tests.push(test);
-	    	self.index+=1;
+	    	self.tests.push(test);	    	
 	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
 	    	return self;
 	};    	
@@ -51,8 +50,9 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 
 define("Test", [], function() {
   return function(shouldEqual, expression, context) {
-  	var expressionStr = expression.toString();
-	this.expression = expressionStr.substring(20, expressionStr.length - 1);
+  	//var expressionStr = expression.toString();
+  	this.expression =  expression.toString();
+	//this.expression = expressionStr.substring(20, expressionStr.length - 1);
 	this.shouldEqual = shouldEqual;
 	this.actual = expression(context);
 	this.typeOf = typeof(this.actual);
