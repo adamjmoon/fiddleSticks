@@ -19,7 +19,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	.on('complete', function() {
 	   var array = self.benchmarks();
 	   array[this.filter('slowest')[0].benchmarkIndex].slowest = true;
-	   self.benchmarks(array);
+	   self.benchmarks()(array);
 	});
 	
 	self.add = function(shouldEqual, expression){
