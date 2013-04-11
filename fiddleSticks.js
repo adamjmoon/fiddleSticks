@@ -10,13 +10,10 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.benchmarks = ko.observableArray([]);
 	self.benchmarkSuite = new Benchmark.Suite;
 	self.benchmarkPlatform = ko.observable(Benchmark.platform.description);
-	self.benchmarkSuite.on('start', function() {
-		self.benchmarks(new Array(self.benchmarkSuite.length));
-	})
- 	.on('cycle', function(event) {
+ 	self.benchmarkSuite.on('cycle', function(event) {
           event.target.slowest=false;        
  	  event.target.benchmarkIndex = self.benchmarkIndex;
- 	  self.benchmarks()[self.benchmarkIndex](event.target); 
+ 	  self.benchmarks.push(event.target); 
  	  self.benchmarkIndex+=1;
 	})
 	.on('complete', function() {	   
