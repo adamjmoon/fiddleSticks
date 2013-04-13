@@ -2,8 +2,17 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
   return function(desc, js) {
   	var self = this;  
 	self.suiteDesc = ko.observable(desc);
-	self.jsContext = js();
-	self.jsContextStr = ko.observable(js.toString());
+	
+	self.prototype.context = function(){};
+	
+	if(js){
+		self.context = js;		
+	}
+	self.jsContextStr = ko.observable(self.context.toString());
+	
+	self.testCases = function(){
+	        return Object.getOwnPropertyNames(self.context);
+	}
 	self.tests = ko.observableArray([]);
 	self.shouldShow = ko.observable(true);
 	self.benchmarks = ko.observableArray([]);
