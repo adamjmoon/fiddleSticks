@@ -1,13 +1,10 @@
 define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
-  return function(desc, js) {
+  return function(description) {
   	var self = this;  
-	self.suiteDesc = ko.observable(desc);
+	self.suiteDesc = ko.observable(description);
 	
 	self.prototype.context = function(){};
 	
-	if(js){
-		self.context = js;		
-	}
 	self.jsContextStr = ko.observable(self.context.toString());
 	
 	self.testCases = function(){
