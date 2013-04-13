@@ -1,9 +1,7 @@
 define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
-  return function(description) {
+    var Suite = function(description) {
   	var self = this;  
-	self.suiteDesc = ko.observable(description);
-	
-	self.prototype.context = function(){};
+	self.suiteDesc = ko.observable(description);	
 	
 	self.jsContextStr = ko.observable(self.context.toString());
 	
@@ -60,7 +58,8 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 		self.benchmarksStatus('Running...');
 	}
 	
-	return self;
+	Suite.prototype.context = function(){};
+	return Suite;
   };
 });
 
