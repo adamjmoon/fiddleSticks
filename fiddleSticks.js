@@ -60,6 +60,7 @@ define("Test", [], function() {
   return function(shouldEqual, expression, context) {
   	var expressionStr = expression.toString();
   	//this.expression =  expression.toString();
+  	this.name = expression.name;
 	this.expression = expressionStr.substring(20, expressionStr.length - 1);
 	this.shouldEqual = shouldEqual;
 	this.actual = expression(context);
