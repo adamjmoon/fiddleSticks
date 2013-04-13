@@ -56,11 +56,13 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.run = function(){
 		self.benchmarkSuite.run({ 'async': true });
 		self.benchmarksStatus('Running...');
-	}
+	};
 	
+  };
+  
+  
 	Suite.prototype.context = function(){};
 	return Suite;
-  };
 });
 
 define("Test", [], function() {
