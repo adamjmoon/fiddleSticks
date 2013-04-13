@@ -1,5 +1,5 @@
 define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
-    var Suite = function(description) {
+    function Suite(description) {
   	var self = this;  
 	self.suiteDesc = ko.observable(description);	
 	
