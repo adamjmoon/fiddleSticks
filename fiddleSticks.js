@@ -59,6 +59,8 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 		self.benchmarkSuite.run({ 'async': true });
 		self.benchmarksStatus('Running...');
 	}
+	
+	return self;
   };
 });
 
