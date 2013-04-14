@@ -5,6 +5,9 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.jsContext = js();
 	self.jsContextStr = ko.observable(js.toString());
 	self.tests = ko.observableArray([]);
+	self.testCases = function(){
+	        return Object.getOwnPropertyNames(self.jsContext);
+	}
 	self.shouldShow = ko.observable(true);
 	self.benchmarks = ko.observableArray([]);
 	self.benchmarksStatus = ko.observable();
