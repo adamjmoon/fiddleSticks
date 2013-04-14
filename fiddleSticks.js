@@ -47,7 +47,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	});
 	
 	self.add = function(shouldEqual, expression){
-		var test = new Test(shouldEqual, expression, self.jsContext);
+		var test = new Test(shouldEqual, expression, self.context);
 	    	self.tests.push(test);	    	
 	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
 	    	return self;
