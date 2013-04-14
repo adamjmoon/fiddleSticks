@@ -2,10 +2,8 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
     return function Suite(description) {
   	var self = this;  
 	self.suiteDesc = ko.observable(description);
-	self.jsContextStr = ko.observable(self.context.toString());
-	
 	self.context = new function(){};
-	
+	self.jsContextStr = ko.observable(self.context.toString());
 	self.testCases = function(){
 	        return Object.getOwnPropertyNames(self.context);
 	}
