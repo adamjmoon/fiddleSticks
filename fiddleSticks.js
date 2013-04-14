@@ -1,9 +1,10 @@
 define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
-    function Suite(description) {
+    return function Suite(description) {
   	var self = this;  
-	self.suiteDesc = ko.observable(description);	
-	
+	self.suiteDesc = ko.observable(description);
 	self.jsContextStr = ko.observable(self.context.toString());
+	
+	self.context = new function(){};
 	
 	self.testCases = function(){
 	        return Object.getOwnPropertyNames(self.context);
@@ -59,10 +60,6 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	};
 	
   };
-  
-  
-	Suite.prototype.context = function(){};
-	return Suite;
 });
 
 define("Test", [], function() {
@@ -122,12 +119,12 @@ define("Verify", [], function() {
 });
 
 define("FiddleSticks", ['Suite', 'Test', 'Spy', 'Verify'], function(Suite, Test, Spy, Verify) {
-  function FiddleSticks() {};
-  FiddleSticks.prototype.Suite = Suite;
-  FiddleSticks.prototype.Test = Test;
-  FiddleSticks.prototype.Spy = Spy;
-  FiddleSticks.prototype.Verify = Verify;
-  return FiddleSticks;
+	return function FiddleSticks() {
+	  	FiddleSticks.prototype.Suite = Suite;
+	  	FiddleSticks.prototype.Test = Test;
+	  	FiddleSticks.prototype.Spy = Spy;
+	  	FiddleSticks.prototype.Verify = Verify;
+  	};
 });
 
 
