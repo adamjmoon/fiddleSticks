@@ -87,7 +87,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 
 define("Test", [], function() {
   return function(shouldEqual, expression, context) {
-  	var expressionStr = expression.toString();
+  	var expressionStr = expression.toString().trim();
   	//this.expression =  expression.toString();
   	this.name = expression.name;
 	this.expression = expressionStr.substring(21, expressionStr.length - 2);
