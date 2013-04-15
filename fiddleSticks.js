@@ -12,17 +12,11 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 		for (var prop in context){
 			if(context[prop] instanceof Function){
 			
-					try{
-					        var tc = { name: prop, value: context[prop].toString()};
-						self.testCases.push(tc);	
-					} catch(){
-						
-					}
+				try{
+				        var tc = { name: prop, value: context[prop].toString()};
+					self.testCases.push(tc);	
+				} catch(){
 					
-				}
-				
-				if(context[prop].prototype){
-					setupTestCases(context[prop].prototype);	
 				}
 				
 			} else if (context[prop] instanceof Object){
@@ -30,10 +24,10 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 					var tc = { name: prop, value: context[prop].toSource()};	
 					self.testCases.push(tc);	
 				}
-					if(context[prop].prototype){
-						setupTestCases(context[prop].prototype);	
-					}
 				
+			}
+			if(context[prop].prototype){
+				setupTestCases(context[prop].prototype);	
 			}
 		
 		}
