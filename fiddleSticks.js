@@ -71,7 +71,7 @@ define("Test", [], function() {
   	var expressionStr = expression.toString();
   	//this.expression =  expression.toString();
   	this.name = expression.name;
-	this.expression = expressionStr.substring(20, expressionStr.length - 1);
+	this.expression = expressionStr.substring(22, expressionStr.length - 2);
 	this.shouldEqual = shouldEqual;
 	this.actual = expression(context);
 	this.typeOf = typeof(this.actual);
