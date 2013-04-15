@@ -85,7 +85,8 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 
 define("Test", [], function() {
   return function(shouldEqual, expression, context) {
-  	var expressionStr = expression.toString().trim();  
+  	var re = /function(c){/gi;
+  	var expressionStr = expression.toString().trim().replace(re,'');  
   	this.name = expression.name;
 	this.expression = expressionStr;
 	this.shouldEqual = shouldEqual;
