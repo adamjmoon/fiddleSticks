@@ -25,7 +25,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 				}
 				
 			}
-			if(context[prop].prototype){
+			if(context[prop] && context[prop].prototype){
 				setupTestCases(context[prop].prototype);	
 			}
 		
