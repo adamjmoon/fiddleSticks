@@ -14,7 +14,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 				var tc = { name: prop, func: self.jsContext[prop]};	
 				self.testCases.push(tc);
 				if(tc.prototype){
-					setupTestCases(tc.prototype);	
+					setupTestCases(tc.__proto__);	
 				}
 				
 			}
