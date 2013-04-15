@@ -6,13 +6,22 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.jsContextStr = ko.observable(js.toString());
 	self.tests = ko.observableArray([]);
 	self.testCases = ko.observableArray([]);
-	for (var prop in self.jsContext){
-		if(self.jsContext[prop] instanceof Function){
-			var tc = { name: prop, func: self.jsContext[prop]};	
-			self.testCases.push(tc);				
+	
+	setupTestCases(self.jsContext);
+	function setupTestCases(context){
+		for (var prop in context){
+			if(self.jsContext[prop] instanceof Function){
+				var tc = { name: prop, func: self.jsContext[prop]};	
+				self.testCases.push(tc);
+				if(tc.prototype){
+					setupTestCases(tc.prototype);	
+				}
+				
+			}
 		}
+	
 	}
-
+	
 	self.shouldShow = ko.observable(true);
 	self.benchmarks = ko.observableArray([]);
 	self.benchmarksStatus = ko.observable();
