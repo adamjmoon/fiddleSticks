@@ -11,8 +11,16 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	function setupTestCases(context){
 		for (var prop in context){
 			if(context[prop] instanceof Function){
-				var tc = { name: prop, value: context[prop]};	
-				self.testCases.push(tc);
+			
+					try{
+					        var tc = { name: prop, value: context[prop].toString()};
+						self.testCases.push(tc);	
+					} catch(){
+						
+					}
+					
+				}
+				
 				if(context[prop].prototype){
 					setupTestCases(context[prop].prototype);	
 				}
