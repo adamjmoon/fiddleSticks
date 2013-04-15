@@ -1,10 +1,8 @@
 define "Test", [], ->
-  (shouldEqual, expression) ->
-    expressionStr = expression.toString()
-    console.log expressionStr
-    @expression = expressionStr.substring 25,expressionStr.length-3
-    @type = typeof (expression())
-    @actual = expression()
+  (shouldEqual, expression, context) ->
+    expressionStr = expression.toString()        
+    @name = expression.name
+    @expression = expressionStr.substring(23, expressionStr.length - 2)
     @shouldEqual = shouldEqual
-    @shouldBeA = shouldBeA
-    return
+    @actual = expression(context)
+    @typeOf = typeof (@actual)
