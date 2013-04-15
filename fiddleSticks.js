@@ -6,13 +6,12 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.jsContextStr = ko.observable(js.toString());
 	self.tests = ko.observableArray([]);
 	self.testCases = ko.observableArray([]);
-	
-	setupTestCases(self.jsContext);
-	function setupTestCases(context){
+	setupTestCases(self.jsContext,'context');
+	function setupTestCases(context, base){
 		for (var prop in context){
 			if(context[prop] instanceof Function){
 				try{
-				        var tc = { name: prop, value: context[prop].toString()};
+				        var tc = { name: base + '.' + prop, value: context[prop].toString()};
 					self.testCases.push(tc);	
 				} catch(err){
 					
@@ -26,7 +25,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 				
 			}
 			if(context[prop] && context[prop].prototype){
-				setupTestCases(context[prop].prototype);	
+				setupTestCases(context[prop].prototype, base + '.' + prop + '.prototype');	
 			}
 		
 		}
