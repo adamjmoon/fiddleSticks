@@ -13,8 +13,8 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 			if(self.jsContext[prop] instanceof Function){
 				var tc = { name: prop, func: self.jsContext[prop]};	
 				self.testCases.push(tc);
-				if(self.jsContext[prop].__proto__){
-					setupTestCases(self.jsContext[prop].__proto__);	
+				if(self.jsContext[prop].prototype){
+					setupTestCases(self.jsContext[prop].prototype);	
 				}
 				
 			}
