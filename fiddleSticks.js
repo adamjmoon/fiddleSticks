@@ -6,7 +6,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.jsContextStr = ko.observable(js.toString());
 	self.tests = ko.observableArray([]);
 	self.testCases = ko.observableArray([]);
-	for (var prop in Object.getOwnPropertyNames(self.jsContext)){
+	for (var prop in self.jsContext){
 		self.testCases.push((self.jsContext[prop]);			
 	}
 
