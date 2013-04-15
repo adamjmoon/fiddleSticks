@@ -7,11 +7,20 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.5/require.min.js"></script>
 </head>    
 
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="alert alert-info span12" data-bind="text: suiteDesc"></div>
-        <pre class="span11"><code data-bind="text: jsContextStr"></code><br/>var c = jsContext();</pre>
-        <table class="table">
+<div class="container-fluid" style="display:none;" data-bind="visible: shouldShow">
+    <div class="well">
+        <div class="alert alert-info" data-bind="text: suiteDesc"></div>
+        <table class="table" id="testCaseList">
+            <tbody data-bind="'foreach': testCases">
+               <tr>
+                   <td><label data-bind="text: name"></label></td>
+                   <td>
+                    <pre><code data-bind="text: func.toString()"></code></pre>       
+                   </td>
+               </tr>
+            </tbody>
+        </table>
+        <table class="table" id="results">
             <thead>
                 <tr>
                     <th>expression</th>
@@ -20,12 +29,35 @@
                     <th>typeof</th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach: tests">
+            <tbody data-bind="'foreach': tests">
                 <tr data-bind="css: shouldEqual === actual ? 'success' : 'error'">
                     <td><code data-bind="text: expression"></code></td>
                     <td><code data-bind="text: shouldEqual"></code></td>
                     <td><code data-bind="text: actual"></code></td>
                     <td><code data-bind="text: typeOf"></code></td>
+                </tr>
+            </tbody>
+        </table>
+         BENCHMARKS in 
+        <span data-bind="text: benchmarkPlatform" class="label label-primary"></span>
+        <span data-bind="text: benchmarksStatus, css: benchmarksStatus != 'Running' ? 'label label-success' : 'label label-warning' "></span>
+        <table class="table" id="benchmarks">
+            <thead>
+                <tr>                    
+                    <th>expression</th>
+                    <th>perfomance</th>
+                    <th>ops/sec</th>
+                    <th>+/-</th>
+                    <th># runs sampled</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: benchmarks">
+                 <tr data-bind="css: fastest ? 'success' : slowest ? 'error' : ''">
+                    <td><code data-bind="text: name"></code></td>
+                    <td><code style='display:none;' data-bind="text: timesFaster ? timesFaster + ' x faster' : '', visible:timesFaster"></code></td> 
+                    <td><code data-bind="text: hz.toFixed(0)"></code></td>
+                    <td><code data-bind="text: stats.rme.toFixed(2) + '%'"></code></td>
+                    <td><code data-bind="text: stats.sample.length"></code></td>
                 </tr>
             </tbody>
         </table>
