@@ -34,7 +34,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	
 	self.shouldShow = ko.observable(true);
 	self.benchmarks = ko.observableArray([]);
-	self.benchmarksStatus = ko.observable();
+	self.benchmarksStatus = ko.observable('Running...');
 	self.benchmarkSuite = new Benchmark.Suite;
 	self.benchmarkPlatform = ko.observable(Benchmark.platform.description);
 	ko.applyBindings(self);
@@ -79,7 +79,6 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	
 	self.run = function(){
 		self.benchmarkSuite.run({ 'async': true });
-		self.benchmarksStatus('Running...');
 	}
   };
 });
