@@ -16,7 +16,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 				
 				
 			} else if (context[prop] instanceof Object){
-				var tc = { name: prop, value: context[prop].toSource()};	
+				var tc = { name: prop, value: context[prop].tosource()};	
 				self.testCases.push(tc);
 				
 			}
