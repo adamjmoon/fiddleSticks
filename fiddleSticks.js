@@ -85,10 +85,9 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 
 define("Test", [], function() {
   return function(shouldEqual, expression, context) {
-  	var expressionStr = expression.toString().trim();
-  	//this.expression =  expression.toString();
+  	var expressionStr = expression.toString().trim();  
   	this.name = expression.name;
-	this.expression = expressionStr.substring(21, expressionStr.length - 2);
+	this.expression = expressionStr;
 	this.shouldEqual = shouldEqual;
 	this.actual = expression(context);
 	this.typeOf = typeof(this.actual);
