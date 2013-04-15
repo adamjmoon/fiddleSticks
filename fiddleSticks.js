@@ -7,12 +7,10 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.tests = ko.observableArray([]);
 	self.testCases = ko.observableArray([]);
 	for (var prop in self.jsContext){
-		var tc = {
-			name: prop,
-			func: self.jsContext[prop]
-		};
-	
-		self.testCases.push(tc);			
+		if(self.jsContext[prop] instanceof Function){
+			var tc = { name: prop, func: self.jsContext[prop]};	
+			self.testCases.push(tc);				
+		}
 	}
 
 	self.shouldShow = ko.observable(true);
