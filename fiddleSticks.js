@@ -47,7 +47,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	        self.benchmarks.push(benchmarksCopy[i]); 
 	   }	   
 	   self.benchmarks.push(slowestBenchmark);
-	   self.benchmarks.sort(function(left, right) { return left.hz == right.hz ? 0 : (left.hz < right.hz ? -1 : 1) })
+	   self.benchmarks.sort(function(left, right) { return left.hz == right.hz ? 0 : (left.hz > right.hz ? -1 : 1) })
 	   self.benchmarksStatus('Completed');
 	});
 	
