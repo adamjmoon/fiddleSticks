@@ -1,127 +1,197 @@
-<body>
-<!--<applet code="nano" archive="https://raw.github.com/bestiejs/benchmark.js/master/nano.jar"></applet>--> 
+<!DOCTYPE html>
 
+<html>
 <head>
-    <link rel="stylesheet" type="text/css" href="http://bootswatch.com/cyborg/bootstrap.min.css">
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/knockout/2.2.1/knockout-min.js'></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.5/require.min.js"></script>
-</head>    
+    <title></title>
+</head>
 
-<div class="container-fluid" style="display:none;" data-bind="visible: shouldShow">
-    <div class="well">
-        <div class="alert alert-info" data-bind="text: suiteDesc"></div>
-        <table class="table" id="testCaseList">
-            <tbody data-bind="'foreach': testCases">
-               <tr>
-                   <td><label data-bind="text: name"></label></td>
-                   <td>
-                    <pre><code data-bind="text: func.toString()"></code></pre>       
-                   </td>
-               </tr>
-            </tbody>
-        </table>
-        <table class="table" id="results">
-            <thead>
-                <tr>
-                    <th>expression</th>
-                    <th>should.equal</th>
-                    <th>actual</th>
-                    <th>typeof</th>
-                </tr>
-            </thead>
-            <tbody data-bind="'foreach': tests">
-                <tr data-bind="css: shouldEqual === actual ? 'success' : 'error'">
-                    <td><code data-bind="text: expression"></code></td>
-                    <td><code data-bind="text: shouldEqual"></code></td>
-                    <td><code data-bind="text: actual"></code></td>
-                    <td><code data-bind="text: typeOf"></code></td>
-                </tr>
-            </tbody>
-        </table>
-         BENCHMARKS in 
-        <span data-bind="text: benchmarkPlatform" class="label label-primary"></span>
-        <span data-bind="text: benchmarksStatus, css: benchmarksStatus != 'Running' ? 'label label-success' : 'label label-warning' "></span>
-        <table class="table" id="benchmarks">
-            <thead>
-                <tr>                    
-                    <th>expression</th>
-                    <th>perfomance</th>
-                    <th>ops/sec</th>
-                    <th>+/-</th>
-                    <th># runs sampled</th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: benchmarks">
-                 <tr data-bind="css: fastest ? 'success' : slowest ? 'error' : ''">
-                    <td><code data-bind="text: name"></code></td>
-                    <td><code style='display:none;' data-bind="text: timesFaster ? timesFaster + ' x faster' : '', visible:timesFaster"></code></td> 
-                    <td><code data-bind="text: hz.toFixed(0)"></code></td>
-                    <td><code data-bind="text: stats.rme.toFixed(2) + '%'"></code></td>
-                    <td><code data-bind="text: stats.sample.length"></code></td>
-                </tr>
-            </tbody>
-        </table>
+<body>
+    <div class="container-fluid" data-bind="visible: shouldShow" style=
+    "display:none;">
+        <div class="well">
+            <div class="alert alert-info" data-bind="text: suiteDesc"></div>
+
+            <div class="accordion" id="accordion">
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-parent="#accordion"
+                        data-toggle="collapse" href=
+                        "#collapseContext">CONTEXT</a>
+                    </div>
+
+                    <div class="accordion-body collapse in" id=
+                    "collapseContext">
+                        <div class="accordion-inner">
+                            <table class="table" id="testCaseList">
+                                <tbody data-bind="'foreach': testCases">
+                                    <tr>
+                                        <td><label data-bind=
+                                        "text: name"></label></td>
+
+                                        <td>
+                                            <pre>
+<code data-bind="text: value"></code>
+</pre>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-parent="#accordion"
+                        data-toggle="collapse" href="#collapseResults">TEST
+                        RESULTS</a>
+                    </div>
+
+                    <div class="accordion-body collapse in" id=
+                    "collapseResults">
+                        <div class="accordion-inner">
+                            <table class="table" id="results">
+                                <thead>
+                                    <tr>
+                                        <th>expression</th>
+
+                                        <th>should.equal</th>
+
+                                        <th>actual</th>
+
+                                        <th>typeof</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody data-bind="'foreach': tests">
+                                    <tr data-bind=
+                                    "css: shouldEqual === actual ? 'success' : 'error'">
+                                    <td><code data-bind=
+                                    "text: expression"></code></td>
+
+                                        <td><code data-bind=
+                                        "text: shouldEqual"></code></td>
+
+                                        <td><code data-bind=
+                                        "text: actual"></code></td>
+
+                                        <td><code data-bind=
+                                        "text: typeOf"></code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-parent="#accordion"
+                        data-toggle="collapse" href=
+                        "#collapseBenchmarks">BENCHMARKS in <span class=
+                        "label label-primary" data-bind=
+                        "text: benchmarkPlatform"></span> <span data-bind=
+                        "text: benchmarksStatus, css: benchmarksStatus != 'Running' ? 'label label-success' : 'label label-warning'">
+                        </span></a>
+                    </div>
+
+                    <div class="accordion-body collapse in" id=
+                    "collapseBenchmarks">
+                        <div class="accordion-inner">
+                            <table class="table" id="benchmarks">
+                                <thead>
+                                    <tr>
+                                        <th>expression</th>
+
+                                        <th>perfomance</th>
+
+                                        <th>ops/sec</th>
+
+                                        <th>+/-</th>
+
+                                        <th># runs sampled</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody data-bind="foreach: benchmarks">
+                                    <tr data-bind=
+                                    "css: fastest ? 'success' : slowest ? 'error' : ''">
+                                    <td><code data-bind=
+                                    "text: name"></code></td>
+
+                                        <td><code data-bind=
+                                        "text: timesFaster ? timesFaster + ' x faster' : '', visible:timesFaster"
+                                        style='display:none;'></code></td>
+
+                                        <td><code data-bind=
+                                        "text: hz.toFixed(0)"></code></td>
+
+                                        <td><code data-bind=
+                                        "text: stats.rme.toFixed(2) + '%'"></code></td>
+
+                                        <td><code data-bind=
+                                        "text: stats.sample.length"></code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
 <script>
+//SETUP REQUIREJS CONFIG FOR EXTERNAL DEPENDENCIES
 requirejs.config({
   paths: {
-    'FiddleSticks': '../fiddleSticks',
-    'benchmark' : 'https://raw.github.com/bestiejs/benchmark.js/master/benchmark',
-    'lodash' : 'https://raw.github.com/bestiejs/benchmark.js/master/vendor/lodash/lodash',
-    'platform' : 'https://raw.github.com/bestiejs/benchmark.js/master/vendor/platform.js/platform'
-  
+    'FiddleSticks' : '//raw.github.com/adamjmoon/fiddleSticks/master/fiddleSticks',
+    'benchmark' : '//raw.github.com/bestiejs/benchmark.js/master/benchmark',
+    'lodash' : '//raw.github.com/bestiejs/benchmark.js/master/vendor/lodash/lodash',
+    'platform' : '//raw.github.com/bestiejs/benchmark.js/master/vendor/platform.js/platform'
   }
 });
+// DEFINE CONTEXT WE WANT TO TEST
+define("context", function() {
+  return function context() {
+     context.prototype.ffor = function() {
+      var i, len, ret;
 
-require(['FiddleSticks'], function(FiddleSticks) {
- var FS, s;
- FS = new FiddleSticks();
- function jsContext() {
-    var Rectangle, Shape;
-    Shape = function() {
-      this.x = 1;
-      this.y = 1;
+      len = arguments.length;
+      ret = new Array(len);
+      i = 0;
+      while (i < len) {
+        ret[i] = arguments[i];
+        i++;
+      }
+      return ret;
     };
-    Rectangle = function() {
-      return Shape.call(this);
+    context.prototype.ffor2 = function() {
+      var i, len, ret;
+
+      len = arguments.length;
+      ret = [];
+      i = 0;
+      while (i < len) {
+        ret.push(arguments[i]);
+        i++;
+      }
+      return ret;
     };
-    Shape.prototype.move = function(x, y) {
-      this.x += x;
-      this.y += y;
-      return "Shape moved.";
+    context.prototype.fslice = function() {
+      return Array.prototype.slice.call(arguments);
     };
-    Rectangle.prototype = Object.create(Shape.prototype);
-    return {
-      shape: new Shape(),
-      rectangle: new Rectangle(),
-      Shape: Shape,
-      Rectangle: Rectangle
-    };
+      
   };
-  
-  s = new FS.Suite('Classical inheritance with Object.create', jsContext);
-  ko.applyBindings(s);
-  
-  s.add(true, function(c) {return c.rectangle instanceof c.Rectangle;})
-   .add(true, function(c) {return c.rectangle instanceof c.Shape;})
-   .add('function', function(c) {return typeof c.Rectangle;})
-   .add(1, function(c) {return c.rectangle.x;})
-   .add(1, function(c) {return c.rectangle.y;})
-   .add(1, function(c) {return c.shape.x;})
-   .add(1, function(c) {return c.shape.y;})
-   .add('object', function(c) {return typeof c.rectangle;})
-   .add('Shape moved.', function(c) {return c.rectangle.move(1, 1);})
-   .add(2, function(c) {return c.rectangle.x;})
-   .add(2, function(c) {return c.rectangle.y;})
-   .add(1, function(c) {return c.shape.x;})
-   .add(1, function(c) {return c.shape.y;});
-    
-    s.benchmarkSuite.run({ 'async': true });
-
 });
-
-    
+//CREATE SUITE OF UNIT TESTS FOR CONTEXT WHILE ALSO RUNNNG BENCMARKS
+require(['FiddleSticks', 'context'], function(fiddleSticks, context) {
+    var suite = new (new fiddleSticks()).Suite('FOR vs FOR V2 vs ARRAY.SLICE', context);
+    suite.add(4, function(c) {return c.ffor(1, 2, 3, 4).length;})
+         .add(4, function(c) {return c.ffor2(1, 2, 3, 4).length;})
+         .add(4, function(c) {return c.fslice(1, 2, 3, 4).length;}).run();
+});
 </script>
+
 </body>
+</html>
