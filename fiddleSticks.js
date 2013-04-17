@@ -99,7 +99,7 @@ define("Test", [], function() {
   return function(shouldEqual, expression, context, name) {
   	var re = /function(c){/gi;
   	var expressionStr = expression.toString().trim().replace(re,'');  
-  	this.name = expression.name;
+  	this.name = name;
 	this.expression = expressionStr;
 	this.shouldEqual = shouldEqual;
 	this.actual = expression(context);
