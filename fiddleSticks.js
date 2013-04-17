@@ -84,7 +84,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.compare = function(){
 		for (var prop in self.jsContext){
 			self.tests.push(new Test(self.shouldEqualValue, 
-						 function(c) { return self.jsContext[prop](arguments);}, self.jsContext));	
+						 function(c) { return c[prop](arguments);}, self.jsContext, prop));	
 		}
 		return self;
 	}
