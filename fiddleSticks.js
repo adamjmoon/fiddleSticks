@@ -70,12 +70,23 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	   self.benchmarksStatus('Completed');
 	});
 	
-	self.add = function(shouldEqual, expression){
-		var test = new Test(shouldEqual, expression, self.jsContext);
-	    	self.tests.push(test);	    	
+	self.add = function(shouldEqual, expression){	
+	    	self.tests.push(new Test(shouldEqual, expression, self.jsContext));	    	
 	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
 	    	return self;
 	};
+	
+	self.shouldEqual = function(shouldEqual){
+		self.shouldEqualValue = shouldEqual;
+		return self;
+	}
+	
+	self.compare = function(){
+		for (var prop in self.jsContext){
+			self.tests.push(new Test(self.shouldEqualValue, self.jsContext[prop](arguments), self.jsContext));	
+		}
+		return self;
+	}
 	
 	self.run = function(){
 		self.benchmarkSuite.run({ 'async': true });
@@ -84,7 +95,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 });
 
 define("Test", [], function() {
-  return function(shouldEqual, expression, context) {
+  return function(shouldEqual, expression, context, name) {
   	var re = /function(c){/gi;
   	var expressionStr = expression.toString().trim().replace(re,'');  
   	this.name = expression.name;
