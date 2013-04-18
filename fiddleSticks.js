@@ -97,7 +97,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 
 define("Test", [], function() {
   return function(shouldEqual, expression, context, name, args) {
-  	var re = /prop/g;
+  	var re = /\[p\]/g;
   	var expressionStr = expression.toString().trim().replace(re,'.' + name);  
   	this.name = name;
 	this.expression = expressionStr;
