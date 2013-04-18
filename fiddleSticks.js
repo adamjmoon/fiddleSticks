@@ -85,7 +85,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.compare = function(){
 		for (var prop in self.jsContext){
 			self.tests.push(new Test(self.shouldEqualValue, 
-						 function(c,a,p) { debugger;return c[p](a);}, self.jsContext, prop, arguments));	
+			  self.jsContext[prop](arguments), prop, arguments));	
 		}
 		return self;
 	}
@@ -99,10 +99,17 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 define("Test", [], function() {
   return function(shouldEqual, expression, context, name, args) {
   	var re = /\[p\]/g;
-  	var expressionStr = expression.toString().trim().replace(re,'.' + name);  
-  	this.name = name;
-	this.expression = expressionStr;
-	this.shouldEqual = shouldEqual;
+  	var expressionStr = expression.toString().trim();  
+  	
+  	if(this.name){
+  		this.name = name;
+		this.expression = expressionStr.replace(re,'.' + name);		
+  	} else{
+  		this.name = '';
+  		this.expression = expressionStr;
+  	}
+  	
+  	this.shouldEqual = shouldEqual;
 	this.actual = expression(context, args, name);
 	this.typeOf = typeof(this.actual);
   };
