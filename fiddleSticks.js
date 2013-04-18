@@ -84,7 +84,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.compare = function(){
 		for (var prop in self.jsContext){
 			self.tests.push(new Test(self.shouldEqualValue, 
-						 function(c,a) { return c[prop](a);}, self.jsContext, prop, arguments));	
+						 function(c,a,p) { return c[p](a);}, self.jsContext, prop, arguments));	
 		}
 		return self;
 	}
@@ -102,7 +102,7 @@ define("Test", [], function() {
   	this.name = name;
 	this.expression = expressionStr;
 	this.shouldEqual = shouldEqual;
-	this.actual = expression(context, args);
+	this.actual = expression(context, args, name);
 	this.typeOf = typeof(this.actual);
   };
 });
