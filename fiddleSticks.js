@@ -104,7 +104,7 @@ define("Test", [], function() {
   		this.name = testCaseName;
 		this.expression = expressionStr.replace(re,'.' + testCaseName);
 		debugger;
-		this.actual = func(context,name);
+		this.actual = func(context,testCaseName);
 		
   	} else{
   		this.name = '';
