@@ -97,12 +97,11 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 });
 
 define("Test", [], function() {
-  return function(shouldEqual, func, context, name) {
+  return function(shouldEqual, func, context, testCaseName) {
   	var re = /\[tc\]/g;
   	var expressionStr = func.toString().trim();  
   	
-  	if(this.name){
-  		
+  	if(testCaseName){  		
   		this.name = name;
 		this.expression = expressionStr.replace(re,'.' + name);
 		debugger;
