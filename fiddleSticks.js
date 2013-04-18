@@ -31,7 +31,6 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 		}
 	
 	}
-	
 	self.shouldShow = ko.observable(true);
 	self.benchmarks = ko.observableArray([]);
 	self.benchmarksStatus = ko.observable('Running...');
@@ -102,8 +101,8 @@ define("Test", [], function() {
   	var expressionStr = func.toString().trim();  
   	
   	if(testCaseName){  		
-  		this.name = name;
-		this.expression = expressionStr.replace(re,'.' + name);
+  		this.name = testCaseName;
+		this.expression = expressionStr.replace(re,'.' + testCaseName);
 		debugger;
 		this.actual = func(context,name);
 		
