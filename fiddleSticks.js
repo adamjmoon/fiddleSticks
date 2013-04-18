@@ -97,12 +97,14 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 
 define("Test", [], function() {
   return function(shouldEqual, func, context, name) {
-  	var re = /\[p\]/g;
+  	var re = /\[tc\]/g;
   	var expressionStr = func.toString().trim();  
   	
   	if(this.name){
+  		
   		this.name = name;
 		this.expression = expressionStr.replace(re,'.' + name);
+		debugger;
 		this.actual = func(context,name);
 		
   	} else{
