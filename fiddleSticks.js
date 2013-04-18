@@ -70,8 +70,8 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	   self.benchmarksStatus('Completed');
 	});
 	
-	self.add = function(shouldEqual, expression){
-		var  test = new Test(shouldEqual, expression, self.jsContext);
+	self.add = function(shouldEqual, expression, name){
+		var  test = new Test(shouldEqual, expression, self.jsContext, name);
 	    	self.tests.push(test);	    	
 	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
 	    	return self;
@@ -82,11 +82,9 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 		return self;
 	}
 	
-	self.compare = function(){
-		console.log(typeof arguments);
-		for (var prop in self.jsContext){
-			self.tests.push(new Test(self.shouldEqualValue, 
-			  self.jsContext[prop](arguments), prop, arguments));	
+	self.compare = function(func){
+		for (var testcase in self.jsContext){
+			self.add(self.showEqualValue, func, testcase);	
 		}
 		return self;
 	}
@@ -98,20 +96,22 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 });
 
 define("Test", [], function() {
-  return function(shouldEqual, expression, context, name, args) {
+  return function(shouldEqual, func, context, name) {
   	var re = /\[p\]/g;
-  	var expressionStr = expression.toString().trim();  
+  	var expressionStr = func.toString().trim();  
   	
   	if(this.name){
   		this.name = name;
-		this.expression = expressionStr.replace(re,'.' + name);		
+		this.expression = expressionStr.replace(re,'.' + name);
+		this.actual = func(context,name);
+		
   	} else{
   		this.name = '';
   		this.expression = expressionStr;
+  		this.actual = func(context);
   	}
   	
-  	this.shouldEqual = shouldEqual;
-	this.actual = expression;
+  	this.shouldEqual = shouldEqual;	
 	this.typeOf = typeof(this.actual);
   };
 });
