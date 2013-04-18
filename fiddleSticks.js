@@ -102,7 +102,7 @@ define("Test", [], function() {
   	this.name = name;
 	this.expression = expressionStr;
 	this.shouldEqual = shouldEqual;
-	this.actual = expression(context, args[0], name);
+	this.actual = expression(context, args, name);
 	this.typeOf = typeof(this.actual);
   };
 });
