@@ -70,8 +70,9 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	   self.benchmarksStatus('Completed');
 	});
 	
-	self.add = function(shouldEqual, expression){	
-	    	self.tests.push(new Test(shouldEqual, expression, self.jsContext));	    	
+	self.add = function(shouldEqual, expression){
+		var  test = new Test(shouldEqual, expression, self.jsContext);
+	    	self.tests.push(test);	    	
 	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
 	    	return self;
 	};
