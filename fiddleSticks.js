@@ -104,10 +104,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	    return element;
   	}
 	
-	self.run = function(){
-   		var archive = 'https://github.com/mathiasbynens/jsperf.com/blob/master/_jar/nano.jar';
-      		document.body.insertBefore(setHTML(createElement('div'),
-        	'<applet code=nano archive=' + archive + '>').lastChild, document.body.firstChild);
+	self.run = function(){   	
 		self.benchmarkSuite.run({ 'async': true, 'queue': true });
 	};
   };
