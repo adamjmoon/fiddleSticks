@@ -37,6 +37,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.benchmarkSuite = new Benchmark.Suite;
 	self.benchmarkPlatform = ko.observable(Benchmark.platform.description);
 	ko.applyBindings(self);
+
  	self.benchmarkSuite.on('cycle', function(event) {
           event.target.slowest=false;
           event.target.fastest=false;
@@ -89,6 +90,10 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	};
 	
 	self.run = function(){
+
+   var archive = 'https://github.com/mathiasbynens/jsperf.com/blob/master/_jar/nano.jar';
+      document.body.insertBefore(setHTML(createElement('div'),
+        '<applet code=nano archive=' + archive + '>').lastChild, document.body.firstChild);
 		self.benchmarkSuite.run({ 'async': true, 'queue': true });
 	};
   };
