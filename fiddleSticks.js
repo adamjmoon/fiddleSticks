@@ -105,7 +105,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
   	}
 	
 	self.run = function(){   	
-		self.benchmarkSuite.run({ 'async': true, 'queue': true });
+		self.benchmarkSuite.run({ 'async': true, 'queue': true,'minSamples': 100, 'defer': true});
 	};
   };
 });
