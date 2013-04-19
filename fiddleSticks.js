@@ -79,19 +79,18 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.shouldEqual = function(shouldEqual){
 		self.shouldEqualValue = shouldEqual;
 		return self;
-	}
+	};
 	
 	self.compare = function(func){
 		for (var testcase in self.jsContext){
-			console.log(testcase);
-			self.add(self.shouldEqualValue, func, testcase);	
+		     self.add(self.shouldEqualValue, func, testcase);	
 		}
 		return self;
-	}
+	};
 	
 	self.run = function(){
 		self.benchmarkSuite.run({ 'async': true, 'queue': true });
-	}
+	};
   };
 });
 
@@ -103,8 +102,7 @@ define("Test", [], function() {
   	if(testCaseName){  		
   		this.name = testCaseName;
 		this.expression = expressionStr.replace(re,'.' + testCaseName);
-		
-		this.actual = func(context,testCaseName);
+	        this.actual = func(context,testCaseName);
 		
   	} else{
   		this.name = '';
