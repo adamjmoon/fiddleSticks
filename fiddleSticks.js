@@ -84,7 +84,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.compare = function(func){
 		for (var testcase in self.jsContext){
 			console.log(testcase);
-			self.add(self.showEqualValue, func, testcase);	
+			self.add(self.shouldEqualValue, func, testcase);	
 		}
 		return self;
 	}
