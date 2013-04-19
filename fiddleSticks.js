@@ -117,7 +117,7 @@ define("Test", [], function() {
   	
   	if(testCaseName){  		
   		this.name = testCaseName;
-		this.expression = expressionStr.replace(re,'.' + testCaseName);
+		this.expression = expressionStr.replace(re,'context.' + testCaseName).replace(/\}/g,'');
 	        this.actual = func(context,testCaseName);
 		
   	} else{
