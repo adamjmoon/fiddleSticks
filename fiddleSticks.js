@@ -90,7 +90,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	}
 	
 	self.run = function(){
-		self.benchmarkSuite.run({ 'async': true });
+		self.benchmarkSuite.run({ 'async': true, 'queue': true });
 	}
   };
 });
