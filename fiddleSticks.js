@@ -6,7 +6,13 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.jsContextStr = ko.observable(js.toString());
 	self.tests = ko.observableArray([]);
 	self.testCases = ko.observableArray([]);
-	setupTestCases(self.jsContext,'context');
+	self.shouldShow = ko.observable(true);
+	self.benchmarks = ko.observableArray([]);
+	self.benchmarksDone = ko.observable(false);
+	self.benchmarkSuite = new Benchmark.Suite;
+	self.benchmarkPlatform = ko.observable(Benchmark.platform.description);
+	ko.applyBindings(self);
+	setupTestCases(self.jsContext,'context');	
 	function setupTestCases(context, base){
 		for (var prop in context){
 			if(context[prop] instanceof Function){
@@ -31,12 +37,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 		}
 	
 	}
-	self.shouldShow = ko.observable(true);
-	self.benchmarks = ko.observableArray([]);
-	self.benchmarksStatus = ko.observable('Running...');
-	self.benchmarkSuite = new Benchmark.Suite;
-	self.benchmarkPlatform = ko.observable(Benchmark.platform.description);
-	ko.applyBindings(self);
+	
 
  	self.benchmarkSuite.on('cycle', function(event) {
           event.target.slowest=false;
@@ -67,7 +68,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	   }	   
 	   self.benchmarks.push(slowestBenchmark);
 	   self.benchmarks.sort(function(left, right) { return left.hz == right.hz ? 0 : (left.hz > right.hz ? -1 : 1) })
-	   self.benchmarksStatus('Completed');
+	   self.benchmarksDone(true);
 	});
 	
 	self.add = function(shouldEqual, expression, name){
