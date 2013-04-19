@@ -89,6 +89,10 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 		return self;
 	};
 	
+	function $(id) {
+	    return typeof id == 'string' ? document.getElementById(id) : id;
+	}
+	
 	function createElement(tagName) {
 	    return document.createElement(tagName);
 	}
