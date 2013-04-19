@@ -72,7 +72,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.add = function(shouldEqual, expression, name){
 		var  test = new Test(shouldEqual, expression, self.jsContext, name);
 	    	self.tests.push(test);	    	
-	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
+	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext,name);});
 	    	return self;
 	};
 	
@@ -103,7 +103,7 @@ define("Test", [], function() {
   	if(testCaseName){  		
   		this.name = testCaseName;
 		this.expression = expressionStr.replace(re,'.' + testCaseName);
-		debugger;
+		
 		this.actual = func(context,testCaseName);
 		
   	} else{
