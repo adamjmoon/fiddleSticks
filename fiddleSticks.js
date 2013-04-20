@@ -11,7 +11,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.benchmarksDone = ko.observable(false);
 	self.benchmarkSuite = new Benchmark.Suite;
 	self.benchmarkPlatform = ko.observable(Benchmark.platform.description);
-	ko.applyBindings(self);
+	
 	setupTestCases(self.jsContext,'context');	
 	function setupTestCases(context, base){
 		for (var prop in context){
@@ -108,6 +108,8 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.run = function(){   	
 		self.benchmarkSuite.run({ 'async': true, 'queue': true,'minSamples': 100});
 	};
+	
+	ko.applyBindings(self);
   };
 });
 
