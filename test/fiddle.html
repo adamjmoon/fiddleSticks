@@ -6,140 +6,112 @@
 </head>
 
 <body>
-    <div class="container-fluid" data-bind="visible: shouldShow" style=
-    "display:none;">
-        <div class="well">
-            <div class="alert alert-info" data-bind="text: suiteDesc"></div>
-
-            <div class="accordion" id="accordion">
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-parent="#accordion"
-                        data-toggle="collapse" href=
-                        "#collapseContext">CONTEXT</a>
-                    </div>
-
-                    <div class="accordion-body collapse in" id=
-                    "collapseContext">
-                        <div class="accordion-inner">
-                            <table class="table" id="testCaseList">
-                                <tbody data-bind="'foreach': testCases">
-                                    <tr>
-                                        <td><label data-bind=
-                                        "text: name"></label></td>
-
-                                        <td>
-                                            <pre>
-<code data-bind="text: value"></code>
-</pre>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-parent="#accordion"
-                        data-toggle="collapse" href="#collapseResults">TEST
-                        RESULTS</a>
-                    </div>
-
-                    <div class="accordion-body collapse in" id=
-                    "collapseResults">
-                        <div class="accordion-inner">
-                            <table class="table" id="results">
-                                <thead>
-                                    <tr>
-                                        <th>expression</th>
-
-                                        <th>should.equal</th>
-
-                                        <th>actual</th>
-
-                                        <th>typeof</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody data-bind="'foreach': tests">
-                                    <tr data-bind=
-                                    "css: shouldEqual === actual ? 'success' : 'error'">
-                                    <td><code data-bind=
-                                    "text: expression"></code></td>
-
-                                        <td><code data-bind=
-                                        "text: shouldEqual"></code></td>
-
-                                        <td><code data-bind=
-                                        "text: actual"></code></td>
-
-                                        <td><code data-bind=
-                                        "text: typeOf"></code></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-parent="#accordion"
-                        data-toggle="collapse" href=
-                        "#collapseBenchmarks">BENCHMARKS in <span class=
-                        "label label-primary" data-bind=
-                        "text: benchmarkPlatform"></span> <span data-bind=
-                        "text: benchmarksStatus, css: benchmarksStatus != 'Running' ? 'label label-success' : 'label label-warning'">
-                        </span></a>
-                    </div>
-
-                    <div class="accordion-body collapse in" id=
-                    "collapseBenchmarks">
-                        <div class="accordion-inner">
-                            <table class="table" id="benchmarks">
-                                <thead>
-                                    <tr>
-                                        <th>expression</th>
-
-                                        <th>perfomance</th>
-
-                                        <th>ops/sec</th>
-
-                                        <th>+/-</th>
-
-                                        <th># runs sampled</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody data-bind="foreach: benchmarks">
-                                    <tr data-bind=
-                                    "css: fastest ? 'success' : slowest ? 'error' : ''">
-                                    <td><code data-bind=
-                                    "text: name"></code></td>
-
-                                        <td><code data-bind=
-                                        "text: timesFaster ? timesFaster + ' x faster' : '', visible:timesFaster"
-                                        style='display:none;'></code></td>
-
-                                        <td><code data-bind=
-                                        "text: hz.toFixed(0)"></code></td>
-
-                                        <td><code data-bind=
-                                        "text: stats.rme.toFixed(2) + '%'"></code></td>
-
-                                        <td><code data-bind=
-                                        "text: stats.sample.length"></code></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+    <div class="container-fluid" style="display:none;" data-bind="visible: shouldShow">
+    <div class="well">
+       <div class="alert alert-info" data-bind="text: suiteDesc"></div>
+       <div class="accordion" id="accordion">
+           <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseContextJS">
+                <span class="badge badge-info">CONTEXT SOURCE</span> 
+              </a>
             </div>
+            <div id="collapseContextJS" class="accordion-body collapse">
+              <div class="accordion-inner">
+               <pre><code data-bind="text: jsContextStr"></code></pre>       
+
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseContext"><span class="badge badge-info">CONTEXT BREAKDOWN</span>               
+              </a>
+            </div>
+            <div id="collapseContext" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                    <table class="table" id="testCaseList">
+                    <tbody data-bind="'foreach': testCases">
+                       <tr>
+                           <td><label data-bind="text: name"></label></td>
+                           <td>
+                            <pre><code data-bind="text: value"></code></pre>       
+                           </td>
+                       </tr>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+           <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseResults"><span class="badge badge-info">TEST RESULTS</span></a>
+            </div>
+            <div id="collapseResults" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                    <table class="table" id="results">
+                    <thead>
+                        <tr>
+                            <th>name</th>
+                            <th>expression</th>
+                            <th>should.equal</th>
+                            <th>actual</th>
+                            <th>typeof</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="'foreach': tests">
+                        <tr data-bind="css: shouldEqual === actual ? 'success' : 'error'">
+                            <td><code data-bind="text: name"></code></td>
+                            <td><code data-bind="text: expression"></code></td>
+                            <td><code data-bind="text: shouldEqual"></code></td>
+                            <td><code data-bind="text: actual"></code></td>
+                            <td><code data-bind="text: typeOf"></code></td>
+                        </tr>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+           <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseBenchmarks">
+                  <span class="badge badge-info">BENCHMARKS</span><span data-bind="text: benchmarkPlatform" class="badge badge-inverse"></span><span data-bind="text: !benchmarksDone() ? 'RUNNING...': 'COMPLETED', css: benchmarksDone() ? 'badge badge-success' : 'badge badge-warning'"></span>         
+              </a>
+               
+            </div>
+            <div id="collapseBenchmarks" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                  <table class="table">
+                      <thead>
+                          <tr>                    
+                              <th>expression</th>
+                              <th>perf (x faster)</th>
+                              <th>ops/sec</th>
+                              <th>+/-</th>
+                              <th># times</th>
+                              <th># cycles</th>
+                              <th>sample size</th>
+                          </tr>
+                      </thead>
+                      <tbody data-bind="foreach: benchmarks">
+                          <tr data-bind="css: fastest ? 'success' : slowest ? 'error' : ''">
+                              <td><code data-bind="text: name"></code></td>
+                              <td><code style='display:none;' data-bind="text: timesFaster, visible:timesFaster"></code></td> 
+                              <td><code data-bind="text: hz.toFixed(0)"></code></td>
+                              <td><code data-bind="text: stats.rme.toFixed(2) + '%'"></code></td>
+                              <td><code data-bind="text: count"></code></td>
+                               <td><code data-bind="text: cycles"></code></td>
+                              <td><code data-bind="text: stats.sample.length"></code></td>
+                          </tr>
+                      </tbody>
+                  </table>
+    <button style="display:none;" class='btn btn-small btn-inverse' data-bind="click: run,visible: benchmarksDone">RUN AGAIN</button>
+              </div>
+            </div>
+          </div>
         </div>
     </div>
+</div>
 
 <script>
 //SETUP REQUIREJS CONFIG FOR EXTERNAL DEPENDENCIES
@@ -152,38 +124,6 @@ requirejs.config({
   }
 });
 // DEFINE CONTEXT WE WANT TO TEST
-define("context", function() {
-  return function context() {
-     context.prototype.ffor = function() {
-      var i, len, ret;
-
-      len = arguments.length;
-      ret = new Array(len);
-      i = 0;
-      while (i < len) {
-        ret[i] = arguments[i];
-        i++;
-      }
-      return ret;
-    };
-    context.prototype.ffor2 = function() {
-      var i, len, ret;
-
-      len = arguments.length;
-      ret = [];
-      i = 0;
-      while (i < len) {
-        ret.push(arguments[i]);
-        i++;
-      }
-      return ret;
-    };
-    context.prototype.fslice = function() {
-      return Array.prototype.slice.call(arguments);
-    };
-      
-  };
-});
 //CREATE SUITE OF UNIT TESTS FOR CONTEXT WHILE ALSO RUNNNG BENCMARKS
 require(['FiddleSticks', 'context'], function(fiddleSticks, context) {
     var suite = new (new fiddleSticks()).Suite('FOR vs FOR V2 vs ARRAY.SLICE', context);
