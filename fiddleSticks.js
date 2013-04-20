@@ -105,7 +105,8 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	    return element;
   	}
 	
-	self.run = function(){   	
+	self.run = function(){
+		self.benchmarksDone(false);
 		self.benchmarks.removeAll();
 		self.benchmarkSuite.run({ 'async': true, 'queue': true,'minSamples': 100});
 		
