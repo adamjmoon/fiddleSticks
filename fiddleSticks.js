@@ -123,12 +123,12 @@ define("Test", [], function() {
   	
   	if(testCaseName){  		
   		this.name = testCaseName;
-		this.expression = expressionStr.replace(re,'context.' + testCaseName).replace(/\}/g,'');
+		this.expression = expressionStr.replace(re,'context.' + testCaseName).replace(/\}/,'');
 	        this.actual = func(context,testCaseName);
 		
   	} else{
   		this.name = '';
-  		re = /(function \(c\) \{ return c)/gi;
+  		re = /(function \(c\) \{ return c)/gim;
   		this.expression = expressionStr.replace(re,'context').replace(/\}/g,'');
   		this.actual = func(context);
   	}
