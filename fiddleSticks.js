@@ -128,8 +128,8 @@ define("Test", [], function() {
 		
   	} else{
   		this.name = '';
-  		var regEx =/(:function \(c\) \{ return c)/i;
-  		this.expression = expressionStr.replace(regEx,'context').replace(/\}/g,'');
+  		re = /(function \(c\) \{ return c\.)/;
+  		this.expression = expressionStr.replace(re,'context').replace(/\}/g,'');
   		this.actual = func(context);
   	}
   	
