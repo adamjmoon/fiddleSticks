@@ -128,6 +128,7 @@ define("Test", [], function() {
 		
   	} else{
   		this.name = '';
+  		debugger;
   		this.expression = expressionStr.replace(/(function\s\(c\)\s\{\sreturn c)/,'context').replace(/\}/,'');
   		this.actual = func(context);
   	}
