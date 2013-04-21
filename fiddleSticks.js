@@ -129,7 +129,7 @@ define("Test", [], function() {
   	} else{
   		this.name = '';
   		
-  		this.expression = expressionStr.replace(/function \(c\) \{ return c/,'context').replace(/\}/,'');
+  		this.expression = expressionStr.replace(/function \(c\) \{return c/,'context').replace(/\}/,'');
   		this.actual = func(context);
   	}
   	
