@@ -118,23 +118,14 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 
 define("Test", ['benchmark'], function(Benchmark) {
   return function(shouldEqual, func, context, testCaseName) {
-  	var re;
-  	console.log(Benchmark.platform.name.toString());
-  	if(Benchmark.platform.name === 'Chrome' && testCaseName){
-  		re =/(function \(c, tc\)\{ return c\[tc\])/gi;
-  	}
-  	else if(testCaseName){
-  		re =/(function \(c, tc\)\{return c\[tc\])/gi;
-  	}
-  	else{
-  		re = /function \(c\) {\n    return c/;
-  	}
   	
   	var expressionStr = func.toString().trim();  
   	
   	if(testCaseName){  		
   		this.name = testCaseName;
-		this.expression = expressionStr.replace(re,'context' + testCaseName).replace(/\}/,'');
+		this.expression =  expressionStr.replace(/\n    /,'')
+  				  	       	.replace(/{ return/,'{return')
+  				                .replace(/(function \(c, tc\)\{return c\[tc\])/gi,'context.' + testCaseName).replace(/\}/,'');
 	        this.actual = func(context,testCaseName);
 		
   	} else{
