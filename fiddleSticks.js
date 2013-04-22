@@ -142,7 +142,7 @@ define("Test", ['benchmark'], function(Benchmark) {
   				         .replace(/{ return/,'{return')
   					 .replace(/function \(c\) {return /,'')
   					 .replace(/c\./gi,'')
-  					 .replace(/\;  }/,'');
+  					 .replace(/\; \}/,'');
   		this.expression = this.name + ';' ;
   		this.actual = func(context);
   	}
