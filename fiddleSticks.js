@@ -126,7 +126,7 @@ define("Test", ['benchmark'], function(Benchmark) {
   		re =/(function \(c, tc\)\{return c\[tc\])/i;
   	}
   	else{
-  		re = /function \(c\) {\n    return c/,'context').replace(/\
+  		re = /function \(c\) {\n    return c/;
   	}
   	
   	var expressionStr = func.toString().trim();  
