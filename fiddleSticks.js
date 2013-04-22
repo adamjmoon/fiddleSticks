@@ -116,7 +116,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
   };
 });
 
-define("Test", ['benchmark'], function(Benchmark) {
+define("Test", [], function() {
   return function(shouldEqual, func, context, testCaseName) {
   	
   	var expressionStr = func.toString().trim();  
