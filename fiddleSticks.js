@@ -119,11 +119,12 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 define("Test", ['benchmark'], function(Benchmark) {
   return function(shouldEqual, func, context, testCaseName) {
   	var re;
-  	if(Benchmark.platform.name.toString() === 'Chrome' && testCaseName){
-  		re =/(function \(c, tc\)\{ return c\[tc\])/i;
+  	console.log(Benchmark.platform.name.toString());
+  	if(Benchmark.platform.name === 'Chrome' && testCaseName){
+  		re =/(function \(c, tc\)\{ return c\[tc\])/gi;
   	}
   	else if(testCaseName){
-  		re =/(function \(c, tc\)\{return c\[tc\])/i;
+  		re =/(function \(c, tc\)\{return c\[tc\])/gi;
   	}
   	else{
   		re = /function \(c\) {\n    return c/;
