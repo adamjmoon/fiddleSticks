@@ -139,7 +139,7 @@ define("Test", ['benchmark'], function(Benchmark) {
 		
   	} else{
   		this.name = expressionStr.replace(re,'').replace(/\;}/,'');
-  		this.expression = 'context.' + this.name + ';' ;
+  		this.expression = 'context' + this.name + ';' ;
   		this.actual = func(context);
   	}
   	
