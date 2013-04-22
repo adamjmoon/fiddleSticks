@@ -116,9 +116,19 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
   };
 });
 
-define("Test", [], function() {
+define("Test", ['benchmark'], function(Benchmark) {
   return function(shouldEqual, func, context, testCaseName) {
-  	var re =/(function \(c, tc\)\{return c\[tc\])/gi;
+  	var re;
+  	if(benchmark.platform.name.toLower() === 'chrome' && testCaseName){
+  		re =/(function \(c, tc\)\{ return c\[tc\])/i;
+  	}
+  	else if(testCaseName){
+  		re =/(function \(c, tc\)\{return c\[tc\])/i;
+  	}
+  	else{
+  		re = /function \(c\) {\n    return c/,'context').replace(/\
+  	}
+  	
   	var expressionStr = func.toString().trim();  
   	
   	if(testCaseName){  		
@@ -127,8 +137,8 @@ define("Test", [], function() {
 	        this.actual = func(context,testCaseName);
 		
   	} else{
-  		this.name = '';
-  		this.expression = expressionStr.replace(/function \(c\) {\n    return c/,'context').replace(/\}/,'');
+  		this.name = expressionStr.replace(re,'').replace(/\;}/,'');
+  		this.expression = 'context.' + this.name + ';' ;
   		this.actual = func(context);
   	}
   	
