@@ -1,26 +1,44 @@
 define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
   return function(desc, js) {
-    var self = this;  
+  	var self = this;  
 	self.suiteDesc = ko.observable(desc);
 	self.jsContext = new js();
 	self.jsContextStr = ko.observable(js.toString());
 	self.tests = ko.observableArray([]);
 	self.testCases = ko.observableArray([]);
-	for (var prop in self.jsContext){
-		var tc = {
-			name: prop,
-			func: self.jsContext[prop]
-		};
-
-		self.testCases.push(tc);			
-	}
-
 	self.shouldShow = ko.observable(true);
 	self.benchmarks = ko.observableArray([]);
-	self.benchmarksStatus = ko.observable();
+	self.benchmarksDone = ko.observable(false);
 	self.benchmarkSuite = new Benchmark.Suite;
 	self.benchmarkPlatform = ko.observable(Benchmark.platform.description);
-	ko.applyBindings(self);
+
+	setupTestCases(self.jsContext,'context');	
+	function setupTestCases(context, base){
+		for (var prop in context){
+			if(context[prop] instanceof Function){
+				try{
+				        var tc = { name: base + '.' + prop, value: context[prop].toString()};
+					self.testCases.push(tc);	
+				} catch(err){
+
+				}
+
+			} else if (context[prop] instanceof Object){
+				if(Object.toSource){
+					var tc = { name: prop, value: context[prop].toSource()};	
+					self.testCases.push(tc);	
+				}
+
+			}
+			if(context[prop] && context[prop].prototype){
+				setupTestCases(context[prop].prototype, base + '.' + prop + '.prototype');	
+			}
+
+		}
+
+	}
+
+
  	self.benchmarkSuite.on('cycle', function(event) {
           event.target.slowest=false;
           event.target.fastest=false;
@@ -49,19 +67,51 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	        self.benchmarks.push(benchmarksCopy[i]); 
 	   }	   
 	   self.benchmarks.push(slowestBenchmark);
-	   self.benchmarksStatus('Completed');
+	   self.benchmarks.sort(function(left, right) { return left.hz == right.hz ? 0 : (left.hz > right.hz ? -1 : 1) });
+	   self.benchmarksDone(true);
 	});
 
-	self.add = function(shouldEqual, expression){
-		var test = new Test(shouldEqual, expression, self.jsContext);
+	self.add = function(shouldEqual, expression, name){
+		var  test = new Test(shouldEqual, expression, self.jsContext, name);
 	    	self.tests.push(test);	    	
-	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext);});
+	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext,name);});
 	    	return self;
 	};
 
-	self.run = function(){
-		self.benchmarkSuite.run({ 'async': true });
-		self.benchmarksStatus('Running...');
+	self.shouldEqual = function(shouldEqual){
+		self.shouldEqualValue = shouldEqual;
+		return self;
+	};
+
+	self.compare = function(func){
+		for (var testcase in self.jsContext){
+		     self.add(self.shouldEqualValue, func, testcase);	
+		}
+		return self;
+	};
+
+	function $(id) {
+	    return typeof id == 'string' ? document.getElementById(id) : id;
 	}
+
+	function createElement(tagName) {
+	    return document.createElement(tagName);
+	}
+
+	function setHTML(element, html) {
+	    if ((element = $(element))) {
+	      element.innerHTML = html == null ? '' : html;
+	    }
+	    return element;
+  	}
+
+	self.run = function(){
+		self.benchmarksDone(false);
+		self.benchmarks.removeAll();
+		self.benchmarkSuite.run({ 'async': true, 'queue': true,'minSamples': 100});
+
+	};
+
+	ko.applyBindings(self);
   };
 });
