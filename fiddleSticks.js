@@ -138,12 +138,13 @@ define("Test", ['benchmark'], function(Benchmark) {
 	        this.actual = func(context,testCaseName);
 		
   	} else{
-  		this.name = expressionStr.replace(/\n    /,'')
+  		this.expression = expressionStr.replace(/\n    /,'')
   				         .replace(/{ return/,'{return')
   					 .replace(/function \(c\) {return /,'')
-  					 .replace(/c\./gi,'')
-  					 .replace(/\; \}/,'');
-  		this.expression = this.name + ';' ;
+  					 .replace(/c\./gi,'context.')  					 
+  					 .replace(/\}/,'');
+  		this.name = this.expression.replace(/context\./,'')
+  					   .replace(/\;/,'');
   		this.actual = func(context);
   	}
   	
