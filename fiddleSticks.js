@@ -134,7 +134,7 @@ define("Test", ['benchmark'], function(Benchmark) {
   	
   	if(testCaseName){  		
   		this.name = testCaseName;
-		this.expression = expressionStr.replace(re,'context.' + testCaseName).replace(/\}/,'');
+		this.expression = expressionStr.replace(re,'context' + testCaseName).replace(/\}/,'');
 	        this.actual = func(context,testCaseName);
 		
   	} else{
