@@ -141,8 +141,8 @@ define("Test", ['benchmark'], function(Benchmark) {
   		this.name = expressionStr.replace(/\n    /,'')
   				         .replace(/{ return/,'{return')
   					 .replace(/function \(c\) {return /,'')
-  					 .replace(/c\./gi,'context.')
-  					 .replace(/\; }/,'');
+  					 .replace(/c\./gi,'')
+  					 .replace(/\;  }/,'');
   		this.expression = this.name + ';' ;
   		this.actual = func(context);
   	}
