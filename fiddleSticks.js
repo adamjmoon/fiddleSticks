@@ -138,9 +138,13 @@ define("Test", ['benchmark'], function(Benchmark) {
 	        this.actual = func(context,testCaseName);
 		
   	} else{
-  		console.log(expressionStr.replace(/\n    /,''))
-  		this.name = expressionStr.replace(re,'').replace(/function \(c\) { return c/,'').replace(/\;}/,'');
-  		this.expression = 'context' + this.name + ';' ;
+  		console.log()
+  		this.name = expressionStr.replace(/\n    /,'')
+  				         .replace(/{ return/,'{return')
+  					 .replace(/function \(c\) {return /,'')
+  					 .replace(/c./,'context.')
+  					 .replace(/\;}/,'');
+  		this.expression = this.name + ';' ;
   		this.actual = func(context);
   	}
   	
