@@ -119,7 +119,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 define("Test", ['benchmark'], function(Benchmark) {
   return function(shouldEqual, func, context, testCaseName) {
   	var re;
-  	if(benchmark.platform.name.toLower() === 'chrome' && testCaseName){
+  	if(Benchmark.platform.name.toLower() === 'chrome' && testCaseName){
   		re =/(function \(c, tc\)\{ return c\[tc\])/i;
   	}
   	else if(testCaseName){
