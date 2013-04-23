@@ -12,7 +12,7 @@
        <div class="accordion" id="accordion">
            <div class="accordion-group">
             <div class="accordion-heading">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseContextJS">
+              <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseContextJS" href="#collapseContextJS">
                 <span class="badge badge-info">CONTEXT SOURCE</span> 
               </a>
             </div>
@@ -25,7 +25,7 @@
           </div>
           <div class="accordion-group">
             <div class="accordion-heading">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseContext"><span class="badge badge-info">CONTEXT BREAKDOWN</span>               
+              <a class="accordion-toggle"  data-toggle="collapse" data-target="#collapseContext" href="#collapseContext"><span class="badge badge-info">CONTEXT BREAKDOWN</span>               
               </a>
             </div>
             <div id="collapseContext" class="accordion-body collapse in">
@@ -45,7 +45,7 @@
           </div>
            <div class="accordion-group">
             <div class="accordion-heading">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseResults"><span class="badge badge-info">TEST RESULTS</span></a>
+              <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseResults" href="#collapseResults"><span class="badge badge-info">TEST RESULTS</span></a>
             </div>
             <div id="collapseResults" class="accordion-body collapse in">
               <div class="accordion-inner">
@@ -74,7 +74,7 @@
           </div>
            <div class="accordion-group">
             <div class="accordion-heading">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseBenchmarks">
+              <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseBenchmarks" href="#collapseBenchmarks">
                   <span class="badge badge-info">BENCHMARKS</span><span data-bind="text: benchmarkPlatform" class="badge badge-inverse"></span><span data-bind="text: !benchmarksDone() ? 'RUNNING...': 'COMPLETED', css: benchmarksDone() ? 'badge badge-success' : 'badge badge-warning'"></span>         
               </a>
                
@@ -113,25 +113,7 @@
     </div>
 </div>
 
-<script>
-//SETUP REQUIREJS CONFIG FOR EXTERNAL DEPENDENCIES
-requirejs.config({
-  paths: {
-    'FiddleSticks' : '//raw.github.com/adamjmoon/fiddleSticks/master/fiddleSticks',
-    'benchmark' : '//raw.github.com/bestiejs/benchmark.js/master/benchmark',
-    'lodash' : '//raw.github.com/bestiejs/benchmark.js/master/vendor/lodash/lodash',
-    'platform' : '//raw.github.com/bestiejs/benchmark.js/master/vendor/platform.js/platform'
-  }
-});
-// DEFINE CONTEXT WE WANT TO TEST
-//CREATE SUITE OF UNIT TESTS FOR CONTEXT WHILE ALSO RUNNNG BENCMARKS
-require(['FiddleSticks', 'context'], function(fiddleSticks, context) {
-    var suite = new (new fiddleSticks()).Suite('FOR vs FOR V2 vs ARRAY.SLICE', context);
-    suite.add(4, function(c) {return c.ffor(1, 2, 3, 4).length;})
-         .add(4, function(c) {return c.ffor2(1, 2, 3, 4).length;})
-         .add(4, function(c) {return c.fslice(1, 2, 3, 4).length;}).run();
-});
-</script>
 
+<script data-main="js/main.js" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.5/require.min.js"></script>
 </body>
 </html>
