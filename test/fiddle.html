@@ -88,12 +88,12 @@
                               <th>perf (x faster)</th>
                               <th>ops/sec</th>
                               <th>+/-</th>
-                              <th># times</th>
-                              <th># cycles</th>
-                              <th>sample size</th>
+                              <th>iterations/sample cycle</th>
+                              <th># analysis cycles</th>
+                              <th># sample cycles</th>
                           </tr>
                       </thead>
-                      <tbody data-bind="foreach: benchmarks">
+                      <tbody data-bind="'foreach': benchmarks">
                           <tr data-bind="css: fastest ? 'success' : slowest ? 'error' : ''">
                               <td><code data-bind="text: name"></code></td>
                               <td><code style='display:none;' data-bind="text: timesFaster, visible:timesFaster"></code></td> 
