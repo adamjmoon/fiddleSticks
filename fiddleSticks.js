@@ -43,7 +43,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
  	  var b = event.target;          
           
           self.benchmarks.push( {
-          	name: ko.observable(b.name.replace(/context\./g,'').replace(/\;/,'')),
+          	name: ko.observable(b.name.replace(/context\.(.*?)\(\)\;/gi,'$1')),
           	expression: ko.observable(b.name),
           	hz: ko.observable(b.hz.toFixed(0)),
           	relativateMarginError: ko.observable(b.stats.rme.toFixed(2) + '%'),
