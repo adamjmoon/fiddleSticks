@@ -58,7 +58,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	.on('complete', function() {          
 	   
 	  self.benchmarks.sort(function(left, right) { 
-	  	return left.hz == right.hz() ? 0 : (left.hz() > right.hz() ? -1 : 1) 
+	  	return left.hz() == right.hz() ? 0 : (left.hz() > right.hz() ? -1 : 1) 
 	  	});
 	  // var benchmarksCopy = self.benchmarks().slice();
 	  // self.benchmarks.removeAll();
