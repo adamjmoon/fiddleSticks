@@ -45,28 +45,37 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
           event.target.timesFaster=false;
  	  self.benchmarks.push(event.target);
 	})
-	.on('complete', function() {
-	   var slowestBenchmark = this.filter('slowest')[0];
-	   slowestBenchmark.slowest = true;
-	   var slowestHz = slowestBenchmark.hz;
-	   var fastestBenchmark = this.filter('fastest')[0];	   
-	   fastestBenchmark.fastest = true;
-	   self.benchmarks.remove(slowestBenchmark);
-	   self.benchmarks.remove(fastestBenchmark);
-	   var benchmarksCopy = self.benchmarks().slice();
-	   self.benchmarks.removeAll();
-	   
-	   function timesFaster(benchmarkHz, slowestHz){
-	   	return (benchmarkHz/slowestHz).toFixed(3);
+	.on('complete', function() {]
+           var slowestBenchmark,fastestBenchmark;
+	   if(this.filter('slowest')){
+	   	 slowestBenchmark = this.filter('slowest')[0];
+		 slowestBenchmark.slowest = true;
+		 var slowestHz = slowestBenchmark.hz;
+		 self.benchmarks.remove(slowestBenchmark);
+	   }
+	   if(this.filter('fastest')){
+		   fastestBenchmark = this.filter('fastest')[0];	   
+		   fastestBenchmark.fastest = true;
+		   self.benchmarks.remove(fastestBenchmark);
 	   }
 	   
-	   fastestBenchmark.timesFaster = timesFaster(fastestBenchmark.hz, slowestHz);
-	   self.benchmarks.push(fastestBenchmark);	   
-	   for (var i = 0; i < benchmarksCopy.length; i++) {
-	        benchmarksCopy[i].timesFaster = timesFaster(benchmarksCopy[i].hz, slowestHz);
-	        self.benchmarks.push(benchmarksCopy[i]); 
-	   }	   
-	   self.benchmarks.push(slowestBenchmark);
+	   if(slowestBenchmark && fastestBenchmark){
+	   	   var benchmarksCopy = self.benchmarks().slice();
+		   self.benchmarks.removeAll();
+		   
+		   function timesFaster(benchmarkHz, slowestHz){
+		   	return (benchmarkHz/slowestHz).toFixed(3);
+		   }
+		   
+		   fastestBenchmark.timesFaster = timesFaster(fastestBenchmark.hz, slowestHz);
+		   self.benchmarks.push(fastestBenchmark);	   
+		   for (var i = 0; i < benchmarksCopy.length; i++) {
+		        benchmarksCopy[i].timesFaster = timesFaster(benchmarksCopy[i].hz, slowestHz);
+		        self.benchmarks.push(benchmarksCopy[i]); 
+		   }	   
+		   self.benchmarks.push(slowestBenchmark);
+	   }
+	   
 	   self.benchmarks.sort(function(left, right) { return left.hz == right.hz ? 0 : (left.hz > right.hz ? -1 : 1) });
 	   self.benchmarksDone(true);
 	});
