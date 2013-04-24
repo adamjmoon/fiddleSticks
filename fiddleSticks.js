@@ -45,40 +45,13 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
           event.target.timesFaster=false;
  	  self.benchmarks.push(event.target);
 	})
-	.on('complete', function() {
-           var slowestBenchmark, fastestBenchmark,
-               slowestBenchmarkFilter = this.filter('slowest'),
-               fastestBenchmarkFilter = this.filter('fastest');
-	   if(slowestBenchmarkFilter && slowestBenchmarkFilter.length > 0){
-	   	 slowestBenchmark = this.filter('slowest')[0];
-		 slowestBenchmark.slowest = true;
-		 var slowestHz = slowestBenchmark.hz;
-		 self.benchmarks.remove(slowestBenchmark);
-	   }
-	   if(fastestBenchmarkFilter && fastestBenchmarkFilter.length > 0){
-		   fastestBenchmark = this.filter('fastest')[0];	   
-		   fastestBenchmark.fastest = true;
-		   self.benchmarks.remove(fastestBenchmark);
-	   }
-	   
-	   if(slowestBenchmark && fastestBenchmark){
-	   	   var benchmarksCopy = self.benchmarks().slice();
-		   self.benchmarks.removeAll();
-		   
-		   function timesFaster(benchmarkHz, slowestHz){
-		   	return (benchmarkHz/slowestHz).toFixed(3);
-		   }
-		   
-		   fastestBenchmark.timesFaster = timesFaster(fastestBenchmark.hz, slowestHz);
-		   self.benchmarks.push(fastestBenchmark);	   
-		   for (var i = 0; i < benchmarksCopy.length; i++) {
-		        benchmarksCopy[i].timesFaster = timesFaster(benchmarksCopy[i].hz, slowestHz);
-		        self.benchmarks.push(benchmarksCopy[i]); 
-		   }	   
-		   self.benchmarks.push(slowestBenchmark);
-	   }
+	.on('complete', function() {          
 	   
 	   self.benchmarks.sort(function(left, right) { return left.hz == right.hz ? 0 : (left.hz > right.hz ? -1 : 1) });
+	   var length = benchmarks.length;
+	   for (var i = 0; i < length; i++) {
+		        self.benchmarks()[i].timesFaster = timesFaster(benchmarks[i].hz, benchmarks[length-1].hz);		        
+		   }	 
 	   self.benchmarksDone(true);
 	});
 	
