@@ -57,15 +57,15 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	})
 	.on('complete', function() {          
 	   
-	  self.benchmarks.sort(function(left, right) { return left.hz == right.hz ? 0 : (left.hz> right.hz ? -1 : 1) });
+	  self.benchmarks.sort(function(left, right) { return left.hz == right.hz ? 0 : (left.hz > right.hz ? -1 : 1) });
 	  // var benchmarksCopy = self.benchmarks().slice();
 	  // self.benchmarks.removeAll();
-	  self.benchmarks()[0]().fastest(true);	
+	  self.benchmarks()[0].fastest(true);	
 	  var length = self.benchmarks().length;	  
-	  self.benchmarks()[length-1]().slowest(true);
-	  var slowestHz = self.benchmarks()[length-1]().hz();
+	  self.benchmarks()[length-1].slowest(true);
+	  var slowestHz = self.benchmarks()[length-1].hz();
 	  for (var i = 0; i < length; i++) {
-		self.benchmarks()[i]().timesFaster((benchmarksCopy[i].hz/slowestHz).toFixed(3));		
+		self.benchmarks()[i].timesFaster((self.benchmarks()[i].hz/slowestHz).toFixed(3));		
   	  }	
 	  self.benchmarksDone(true);
 	});
