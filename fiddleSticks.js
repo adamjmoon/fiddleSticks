@@ -56,7 +56,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	  benchmarksCopy[length-1].slowest=true;
 	  var slowest = benchmarksCopy[length-1];
 	  for (var i = 0; i < length; i++) {
-		benchmarksCopy[i].timesFaster = benchmarksCopy[i].hz/slowest.hz).toFixed(3);
+		benchmarksCopy[i].timesFaster = (benchmarksCopy[i].hz/slowest.hz).toFixed(3);
 		self.benchmarks.push(benchmarksCopy[i]); 
   	  }	
 	  self.benchmarksDone(true);
