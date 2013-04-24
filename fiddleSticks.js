@@ -47,7 +47,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
           	expression: ko.observable(b.name),
           	hz: ko.observable(b.hz.toFixed(0)),
           	relativateMarginError: ko.observable(b.stats.rme.toFixed(2) + '%'),
-          	timesFaster: 'pending...',
+          	timesFaster: ko.observable('pending...'),
           	slowest: ko.observable(false),
           	fastest: ko.observable(false),
           	iterationPerSampleCycle: ko.observable(b.count),
