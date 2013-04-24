@@ -46,14 +46,15 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
  	  self.benchmarks.push(event.target);
 	})
 	.on('complete', function() {
-           var slowestBenchmark,fastestBenchmark;
-	   if(this.filter('slowest')){
+           var slowestBenchmark = this.filter('slowest'),
+               fastestBenchmark = this.filter('fastest');
+	   if(slowestBenchmark && slowestBenchmark.length > 0){
 	   	 slowestBenchmark = this.filter('slowest')[0];
 		 slowestBenchmark.slowest = true;
 		 var slowestHz = slowestBenchmark.hz;
 		 self.benchmarks.remove(slowestBenchmark);
 	   }
-	   if(this.filter('fastest')){
+	   if(fastestBenchmark && fastestBenchmark.length > 0){
 		   fastestBenchmark = this.filter('fastest')[0];	   
 		   fastestBenchmark.fastest = true;
 		   self.benchmarks.remove(fastestBenchmark);
