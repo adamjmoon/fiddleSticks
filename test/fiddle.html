@@ -12,11 +12,11 @@
        <div class="accordion" id="accordion">
            <div class="accordion-group">
             <div class="accordion-heading">
-              <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseContextSource" href="#collapseContextSource">
+              <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseContextJS" href="#collapseContextJS">
                 <span class="badge badge-info">CONTEXT SOURCE</span> 
               </a>
             </div>
-            <div id="collapseContextSource" class="accordion-body collapse">
+            <div id="collapseContextJS" class="accordion-body collapse">
               <div class="accordion-inner">
                <pre><code data-bind="text: jsContextStr"></code></pre>       
 
@@ -25,10 +25,10 @@
           </div>
           <div class="accordion-group">
             <div class="accordion-heading">
-              <a class="accordion-toggle"  data-toggle="collapse" data-target="#collapseContextBreakdown" href="#collapseContextBreakdown"><span class="badge badge-info">CONTEXT BREAKDOWN</span>               
+              <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseContext" href="#collapseContext"><span class="badge badge-info">CONTEXT BREAKDOWN</span>               
               </a>
             </div>
-            <div id="collapseContextBreakdown" class="accordion-body collapse in">
+            <div id="collapseContext" class="accordion-body collapse in">
               <div class="accordion-inner">
                     <table class="table" id="testCaseList">
                     <tbody data-bind="'foreach': testCases">
@@ -84,24 +84,26 @@
                   <table class="table">
                       <thead>
                           <tr>                    
+                              <th>name</th>
                               <th>expression</th>
-                              <th>perf (x faster)</th>
+                              <th>times faster</th>
                               <th>ops/sec</th>
                               <th>+/-</th>
-                              <th>iterations/sample cycle</th>
                               <th># analysis cycles</th>
                               <th># sample cycles</th>
+                              <th>iterations/sample cycle</th>
                           </tr>
                       </thead>
                       <tbody data-bind="'foreach': benchmarks">
-                          <tr data-bind="css: fastest ? 'success' : slowest ? 'error' : ''">
+                          <tr data-bind="css: fastest() ? 'success' : slowest() ? 'error' : ''">
                               <td><code data-bind="text: name"></code></td>
+                              <td><code data-bind="text: expression"></code></td>
                               <td><code style='display:none;' data-bind="text: timesFaster, visible:timesFaster"></code></td> 
-                              <td><code data-bind="text: hz.toFixed(0)"></code></td>
-                              <td><code data-bind="text: stats.rme.toFixed(2) + '%'"></code></td>
-                              <td><code data-bind="text: count"></code></td>
-                               <td><code data-bind="text: cycles"></code></td>
-                              <td><code data-bind="text: stats.sample.length"></code></td>
+                              <td><code data-bind="text: hz"></code></td>
+                              <td><code data-bind="text: relativateMarginError"></code></td>
+                              <td><code data-bind="text: numAnalysisCycles"></code></td>
+                              <td><code data-bind="text: numSampleCycles"></code></td>
+                              <td><code data-bind="text: iterationPerSampleCycle"></code></td>
                           </tr>
                       </tbody>
                   </table>
