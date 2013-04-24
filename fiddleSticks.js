@@ -50,7 +50,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	   self.benchmarks.sort(function(left, right) { return left.hz == right.hz ? 0 : (left.hz > right.hz ? -1 : 1) });
 	   var length = self.benchmarks().length;
 	   for (var i = 0; i < length; i++) {
-		        self.benchmarks()[i].timesFaster = (self.benchmarks()[i].hz/self.benchmarks()[length-1].hz).toFixed(3);		        
+		        self.benchmarks()[i].timesFaster((self.benchmarks()[i].hz/self.benchmarks()[length-1].hz).toFixed(3));		        
 		   }	 
 	   self.benchmarksDone(true);
 	});
