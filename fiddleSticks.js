@@ -45,7 +45,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
           event.target.timesFaster=false;
  	  self.benchmarks.push(event.target);
 	})
-	.on('complete', function() {]
+	.on('complete', function() {
            var slowestBenchmark,fastestBenchmark;
 	   if(this.filter('slowest')){
 	   	 slowestBenchmark = this.filter('slowest')[0];
