@@ -40,10 +40,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	
 
  	self.benchmarkSuite.on('cycle', function(event) {
- 	  var b = event.target;
-          event.target.slowest=false;
-          event.target.fastest=false;
-          event.target.timesFaster=false;
+ 	  var b = event.target;          
           
           self.benchmarks.push( {
           	name: ko.observable(b.name.replace(/context\./g,'').replace(/\;/,'')),
@@ -52,7 +49,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
           	relativateMarginError: ko.observable(b.stats.rme.toFixed(2) + '%'),
           	timesFaster: 'pending...',
           	slowest: false,
-          	faster: false,
+          	fastest: false,
           	iterationPerSampleCycle: ko.observable(b.count),
           	numAnalysisCycles: ko.observable(b.cycles), 
           	numSampleCycles: ko.observable(b.stats.sample.length)
