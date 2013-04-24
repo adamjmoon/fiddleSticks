@@ -67,7 +67,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	  self.benchmarks()[length-1].slowest(true);
 	  var slowestHz = self.benchmarks()[length-1].hz();
 	  for (var i = 0; i < length; i++) {
-		self.benchmarks()[i].timesFaster((self.benchmarks()[i].hz/slowestHz).toFixed(3));		
+		self.benchmarks()[i].timesFaster((self.benchmarks()[i].hz()/slowestHz).toFixed(3));		
   	  }	
 	  self.benchmarksDone(true);
 	});
