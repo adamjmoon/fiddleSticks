@@ -45,7 +45,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
           self.benchmarks.push( {
           	name: ko.observable(b.name.replace(/context\./g,'').replace(/\;/,'')),
           	expression: ko.observable(b.name),
-          	hz: ko.observable(b.hz),
+          	hz: ko.observable(b.hz.toFixed(0)),
           	relativateMarginError: ko.observable(b.stats.rme.toFixed(2) + '%'),
           	timesFaster: 'pending...',
           	slowest: false,
@@ -57,7 +57,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	})
 	.on('complete', function() {          
 	   
-	  self.benchmarks.sort(function(left, right) { return left.hz() == right.hz() ? 0 : (left.hz() > right.hz() ? -1 : 1) });
+	  self.benchmarks.sort(function(left, right) { return left.hz == right.hz ? 0 : (left.hz> right.hz ? -1 : 1) });
 	  // var benchmarksCopy = self.benchmarks().slice();
 	  // self.benchmarks.removeAll();
 	  self.benchmarks()[0].fastest(true);	
