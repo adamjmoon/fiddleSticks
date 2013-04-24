@@ -40,24 +40,35 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	
 
  	self.benchmarkSuite.on('cycle', function(event) {
+ 	  var b = event.target;
           event.target.slowest=false;
           event.target.fastest=false;
           event.target.timesFaster=false;
- 	  self.benchmarks.push(event.target);
+          
+          self.benchmarks.push( {
+          	name: ko.observable(b.name.replace(/context\./g,'').replace(/\;/,'')),
+          	expression: ko.observable(b.name),
+          	hz: ko.observable(b.hz),
+          	relativateMarginError: ko.observable(b.stats.rme.toFixed(2) + '%'),
+          	timesFaster: 'pending...',
+          	slowest: false,
+          	faster: false,
+          	iterationPerSampleCycle: ko.observable(b.count),
+          	numAnalysisCycles: ko.observable(b.cycles), 
+          	numSampleCycles: ko.observable(b.stats.sample.length)
+          });
 	})
 	.on('complete', function() {          
 	   
 	  self.benchmarks.sort(function(left, right) { return left.hz == right.hz ? 0 : (left.hz > right.hz ? -1 : 1) });
-	  var benchmarksCopy = self.benchmarks().slice();
-	  self.benchmarks.removeAll();
-	  benchmarksCopy[0].fastest=true;
-	  var length = benchmarksCopy.length;
-	  benchmarksCopy[0].fastest=true;
-	  benchmarksCopy[length-1].slowest=true;
-	  var slowest = benchmarksCopy[length-1];
+	  // var benchmarksCopy = self.benchmarks().slice();
+	  // self.benchmarks.removeAll();
+	  self.benchmarks()[0].fastest(true);	
+	  var length = self.benchmarks().length;	  
+	  self.benchmarks()[length-1].slowest(true);
+	  var slowestHz = self.benchmarks()[length-1].hz();
 	  for (var i = 0; i < length; i++) {
-		benchmarksCopy[i].timesFaster = (benchmarksCopy[i].hz/slowest.hz).toFixed(3);
-		self.benchmarks.push(benchmarksCopy[i]); 
+		self.benchmarks()[i].timesFaster((benchmarksCopy[i].hz/slowestHz).toFixed(3));		
   	  }	
 	  self.benchmarksDone(true);
 	});
@@ -65,7 +76,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.add = function(shouldEqual, expression, name){
 		var  test = new Test(shouldEqual, expression, self.jsContext, name);
 	    	self.tests.push(test);	    	
-	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext,name);},{ 'async': true, 'queued': true, 'minSamples': 100});
+	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext,name);});
 	    	return self;
 	};
 	
