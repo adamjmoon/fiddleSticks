@@ -47,12 +47,19 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	})
 	.on('complete', function() {          
 	   
-	   self.benchmarks.sort(function(left, right) { return left.hz == right.hz ? 0 : (left.hz > right.hz ? -1 : 1) });
-	   var length = self.benchmarks().length;
-	   for (var i = 0; i < length; i++) {
-		        self.benchmarks()[i].timesFaster((self.benchmarks()[i].hz/self.benchmarks()[length-1].hz).toFixed(3));		        
-		   }	 
-	   self.benchmarksDone(true);
+	  self.benchmarks.sort(function(left, right) { return left.hz == right.hz ? 0 : (left.hz > right.hz ? -1 : 1) });
+	  var benchmarksCopy = self.benchmarks().slice();
+	  self.benchmarks.removeAll();
+	  benchmarksCopy[0].fastest=true;
+	  var length = benchmarksCopy.length;
+	  benchmarksCopy[0].fastest=true;
+	  benchmarksCopy[length-1].slowest=true;
+	  var slowest = benchmarksCopy[length-1];
+	  for (var i = 0; i < length; i++) {
+		benchmarksCopy[i].timesFaster = benchmarksCopy[i].hz/slowest.hz).toFixed(3);
+		self.benchmarks.push(benchmarksCopy[i]); 
+  	  }	
+	  self.benchmarksDone(true);
 	});
 	
 	self.add = function(shouldEqual, expression, name){
