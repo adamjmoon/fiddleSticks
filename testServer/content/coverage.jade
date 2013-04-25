@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    br
+    br
+    br
+    div.row-fluid
+       div.iframe
+           iframe(width='100%',scrolling='yes', frameborder='no', src='/coverage/lcov-report/index.html')
+           script(type="text/javascript",src="/content/coverage.js")
+

@@ -1,0 +1,19 @@
+title JS Test Runner
+link(rel='stylesheet',href='/content/mocha.css')
+link(rel='stylesheet',href='/content/bootstrap.min.css')
+div.navbar.navbar-fixed-top
+  div.navbar-inner
+    div.container-fluid
+      a.brand(href='../') OT JS UnitTests
+      div.nav-collapse.collapse
+        ul.nav.nav-pills
+          li#results
+            a(href='/') Results
+          li#coverage
+            a(href='/coverage') Coverage
+
+
+div.container-fluid
+    block content
+script(type="text/javascript",src="/content/nav.js")
+script(type="text/javascript",src="/content/livereload.js")
