@@ -40,41 +40,44 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	
 
  	self.benchmarkSuite.on('cycle', function(event) {
-          event.target.slowest=false;
-          event.target.fastest=false;
-          event.target.timesFaster=false;
- 	  self.benchmarks.push(event.target);
+ 	  var b = event.target;          
+          
+          self.benchmarks.push( {
+          	name: ko.observable(b.name.replace(/context\.(.*?)\(\)\;/gi,'$1')),
+          	expression: ko.observable(b.name),
+          	hz: ko.observable(b.hz.toFixed(0)),
+          	relativateMarginError: ko.observable(b.stats.rme.toFixed(2) + '%'),
+          	timesFaster: ko.observable('pending...'),
+          	slowest: ko.observable(false),
+          	fastest: ko.observable(false),
+          	iterationPerSampleCycle: ko.observable(b.count),
+          	numAnalysisCycles: ko.observable(b.cycles), 
+          	numSampleCycles: ko.observable(b.stats.sample.length)
+          });
 	})
-	.on('complete', function() {
-	   var slowestBenchmark = this.filter('slowest')[0];
-	   slowestBenchmark.slowest = true;
-	   var slowestHz = slowestBenchmark.hz;
-	   var fastestBenchmark = this.filter('fastest')[0];	   
-	   fastestBenchmark.fastest = true;
-	   self.benchmarks.remove(slowestBenchmark);
-	   self.benchmarks.remove(fastestBenchmark);
-	   var benchmarksCopy = self.benchmarks().slice();
-	   self.benchmarks.removeAll();
+	.on('complete', function() {          
 	   
-	   function timesFaster(benchmarkHz, slowestHz){
-	   	return (benchmarkHz/slowestHz).toFixed(3);
-	   }
-	   
-	   fastestBenchmark.timesFaster = timesFaster(fastestBenchmark.hz, slowestHz);
-	   self.benchmarks.push(fastestBenchmark);	   
-	   for (var i = 0; i < benchmarksCopy.length; i++) {
-	        benchmarksCopy[i].timesFaster = timesFaster(benchmarksCopy[i].hz, slowestHz);
-	        self.benchmarks.push(benchmarksCopy[i]); 
-	   }	   
-	   self.benchmarks.push(slowestBenchmark);
-	   self.benchmarks.sort(function(left, right) { return left.hz == right.hz ? 0 : (left.hz > right.hz ? -1 : 1) });
-	   self.benchmarksDone(true);
+	  self.benchmarks.sort(function(left, right) { 
+	  	var leftHz = parseInt(left.hz());
+	  	var rightHz =  parseInt(right.hz());
+	  	return leftHz == rightHz ? 0 : (leftHz > rightHz ? -1 : 1) 
+	  	});
+	  // var benchmarksCopy = self.benchmarks().slice();
+	  // self.benchmarks.removeAll();
+	  self.benchmarks()[0].fastest(true);	
+	  var length = self.benchmarks().length;	  
+	  self.benchmarks()[length-1].slowest(true);
+	  var slowestHz = self.benchmarks()[length-1].hz();
+	  for (var i = 0; i < length; i++) {
+		self.benchmarks()[i].timesFaster((self.benchmarks()[i].hz()/slowestHz).toFixed(3));		
+  	  }	
+	  self.benchmarksDone(true);
 	});
 	
 	self.add = function(shouldEqual, expression, name){
 		var  test = new Test(shouldEqual, expression, self.jsContext, name);
 	    	self.tests.push(test);	    	
-	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext,name);});
+	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext,name);}, { 'async': true, 'queued': true, 'minSamples': 100});
 	    	return self;
 	};
 	
@@ -108,7 +111,7 @@ define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
 	self.run = function(){
 		self.benchmarksDone(false);
 		self.benchmarks.removeAll();
-		self.benchmarkSuite.run({ 'async': true, 'queue': true,'minSamples': 100});
+		self.benchmarkSuite.run();
 		
 	};
 	
