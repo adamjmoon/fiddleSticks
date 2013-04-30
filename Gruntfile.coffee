@@ -46,7 +46,7 @@ module.exports = (grunt) ->
         options: compile: true, compress: true
     concat:
       scripts:
-        src: [v+'jquery-2.0.0b1.js',v+'bootstrap.min.js',v+'lodash.min.js',v+'platform.js',v+'benchmark.js',v+'knockout-min.js']
+        src: [v+'bootstrap.min.js',v+'lodash.min.js',v+'platform.js',v+'benchmark.js']
         dest: r + 'scripts.js'
       scriptsCopy:
         src: [r + 'scripts.js']
