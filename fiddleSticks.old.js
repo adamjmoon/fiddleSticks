@@ -1,4 +1,4 @@
-define("Suite", ['Test', 'benchmark','knockout'], function(Test, Benchmark, ko) {
+define("Suite", ['Test', 'benchmark'], function(Test, Benchmark) {
   return function(desc, js) {
   	var self = this;  
 	self.suiteDesc = ko.observable(desc);
@@ -11,7 +11,7 @@ define("Suite", ['Test', 'benchmark','knockout'], function(Test, Benchmark, ko) 
 	self.benchmarksDone = ko.observable(false);
 	self.benchmarkSuite = new Benchmark.Suite;
 	self.benchmarkPlatform = ko.observable(Benchmark.platform.description);
-
+	
 	setupTestCases(self.jsContext,'context');	
 	function setupTestCases(context, base){
 		for (var prop in context){
@@ -20,125 +20,133 @@ define("Suite", ['Test', 'benchmark','knockout'], function(Test, Benchmark, ko) 
 				        var tc = { name: base + '.' + prop, value: context[prop].toString()};
 					self.testCases.push(tc);	
 				} catch(err){
-
+					
 				}
-
+				
 			} else if (context[prop] instanceof Object){
 				if(Object.toSource){
 					var tc = { name: prop, value: context[prop].toSource()};	
 					self.testCases.push(tc);	
 				}
-
+				
 			}
 			if(context[prop] && context[prop].prototype){
 				setupTestCases(context[prop].prototype, base + '.' + prop + '.prototype');	
 			}
+		
 		}
+	
 	}
+	
 
  	self.benchmarkSuite.on('cycle', function(event) {
-          event.target.slowest=false;
-          event.target.fastest=false;
-          event.target.timesFaster=false;
- 	  self.benchmarks.push(event.target);
+ 	  var b = event.target;          
+          
+          self.benchmarks.push( {
+          	name: ko.observable(b.name.replace(/context\.(.*?)\(\)\;/gi,'$1')),
+          	expression: ko.observable(b.name),
+          	hz: ko.observable(b.hz.toFixed(0)),
+          	relativateMarginError: ko.observable(b.stats.rme.toFixed(2) + '%'),
+          	timesFaster: ko.observable('pending...'),
+          	slowest: ko.observable(false),
+          	fastest: ko.observable(false),
+          	iterationPerSampleCycle: ko.observable(b.count),
+          	numAnalysisCycles: ko.observable(b.cycles), 
+          	numSampleCycles: ko.observable(b.stats.sample.length)
+          });
 	})
-	.on('complete', function() {
-	   var slowestBenchmark = this.filter('slowest')[0];
-	   slowestBenchmark.slowest = true;
-	   var slowestHz = slowestBenchmark.hz;
-	   var fastestBenchmark = this.filter('fastest')[0];	   
-	   fastestBenchmark.fastest = true;
-	   self.benchmarks.remove(slowestBenchmark);
-	   self.benchmarks.remove(fastestBenchmark);
-	   var benchmarksCopy = self.benchmarks().slice();
-	   self.benchmarks.removeAll();
-
-	   function timesFaster(benchmarkHz, slowestHz){
-	   	return (benchmarkHz/slowestHz).toFixed(3);
-	   }
-
-	   fastestBenchmark.timesFaster = timesFaster(fastestBenchmark.hz, slowestHz);
-	   self.benchmarks.push(fastestBenchmark);	   
-	   for (var i = 0; i < benchmarksCopy.length; i++) {
-	        benchmarksCopy[i].timesFaster = timesFaster(benchmarksCopy[i].hz, slowestHz);
-	        self.benchmarks.push(benchmarksCopy[i]); 
-	   }	   
-	   self.benchmarks.push(slowestBenchmark);
-	   self.benchmarks.sort(function(left, right) { return left.hz == right.hz ? 0 : (left.hz > right.hz ? -1 : 1) });
-	   self.benchmarksDone(true);
+	.on('complete', function() {          
+	   
+	  self.benchmarks.sort(function(left, right) { 
+	  	var leftHz = parseInt(left.hz());
+	  	var rightHz =  parseInt(right.hz());
+	  	return leftHz == rightHz ? 0 : (leftHz > rightHz ? -1 : 1) 
+	  	});
+	  // var benchmarksCopy = self.benchmarks().slice();
+	  // self.benchmarks.removeAll();
+	  self.benchmarks()[0].fastest(true);	
+	  var length = self.benchmarks().length;	  
+	  self.benchmarks()[length-1].slowest(true);
+	  var slowestHz = self.benchmarks()[length-1].hz();
+	  for (var i = 0; i < length; i++) {
+		self.benchmarks()[i].timesFaster((self.benchmarks()[i].hz()/slowestHz).toFixed(3));		
+  	  }	
+	  self.benchmarksDone(true);
 	});
-
+	
 	self.add = function(shouldEqual, expression, name){
 		var  test = new Test(shouldEqual, expression, self.jsContext, name);
 	    	self.tests.push(test);	    	
-	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext,name);});
+	    	self.benchmarkSuite.add(test.expression, function() { expression(self.jsContext,name);}, { 'async': true, 'queued': true, 'minSamples': 100});
 	    	return self;
 	};
-
+	
 	self.shouldEqual = function(shouldEqual){
 		self.shouldEqualValue = shouldEqual;
 		return self;
 	};
-
+	
 	self.compare = function(func){
 		for (var testcase in self.jsContext){
 		     self.add(self.shouldEqualValue, func, testcase);	
 		}
 		return self;
 	};
-
+	
 	function $(id) {
 	    return typeof id == 'string' ? document.getElementById(id) : id;
 	}
-
+	
 	function createElement(tagName) {
 	    return document.createElement(tagName);
 	}
-
+	
 	function setHTML(element, html) {
 	    if ((element = $(element))) {
 	      element.innerHTML = html == null ? '' : html;
 	    }
 	    return element;
   	}
-
+	
 	self.run = function(){
 		self.benchmarksDone(false);
 		self.benchmarks.removeAll();
-		self.benchmarkSuite.run({ 'async': true, 'queue': true,'minSamples': 100});
-
+		self.benchmarkSuite.run();
+		
 	};
-
+	
 	ko.applyBindings(self);
   };
 });
+
 define("Test", [], function() {
   return function(shouldEqual, func, context, testCaseName) {
-    
-    var expressionStr = func.toString().trim();  
-    
-    if(testCaseName){     
-      this.name = testCaseName;
-    this.expression =  expressionStr.replace(/\n    /,'')
-                      .replace(/{ return/,'{return')
-                          .replace(/(function \(c, tc\)\{return c\[tc\])/gi,'context.' + testCaseName).replace(/\}/,'');
-          this.actual = func(context,testCaseName);
-    
-    } else{
-      this.expression = expressionStr.replace(/\n    /,'')
-                   .replace(/{ return/,'{return')
-             .replace(/function \(c\) {return /,'')
-             .replace(/c\./gi,'context.')            
-             .replace(/\}/,'');
-      this.name = this.expression.replace(/context\./g,'')
-               .replace(/\;/,'');
-      this.actual = func(context);
-    }
-    
-    this.shouldEqual = shouldEqual; 
-  this.typeOf = typeof(this.actual);
+  	
+  	var expressionStr = func.toString().trim();  
+  	
+  	if(testCaseName){  		
+  		this.name = testCaseName;
+		this.expression =  expressionStr.replace(/\n    /,'')
+  				  	       	.replace(/{ return/,'{return')
+  				                .replace(/(function \(c, tc\)\{return c\[tc\])/gi,'context.' + testCaseName).replace(/\}/,'');
+	        this.actual = func(context,testCaseName);
+		
+  	} else{
+  		this.expression = expressionStr.replace(/\n    /,'')
+  				         .replace(/{ return/,'{return')
+  					 .replace(/function \(c\) {return /,'')
+  					 .replace(/c\./gi,'context.')  					 
+  					 .replace(/\}/,'');
+  		this.name = this.expression.replace(/context\./g,'')
+  					   .replace(/\;/,'');
+  		this.actual = func(context);
+  	}
+  	
+  	this.shouldEqual = shouldEqual;	
+	this.typeOf = typeof(this.actual);
   };
 });
+
 define("Spy", [], function() {
 	return function(F) {
 		function G() {
@@ -153,6 +161,7 @@ define("Spy", [], function() {
 		return G;
   };
 });
+
 define("Verify", [], function() {
 	return function(F) {
 		return function () {
@@ -181,6 +190,7 @@ define("Verify", [], function() {
 		};
 	};
 });
+
 define("FiddleSticks", ['Suite', 'Test', 'Spy', 'Verify'], function(Suite, Test, Spy, Verify) {
   return function FiddleSticks() {
 	  FiddleSticks.prototype.Suite = Suite;
@@ -189,3 +199,4 @@ define("FiddleSticks", ['Suite', 'Test', 'Spy', 'Verify'], function(Suite, Test,
 	  FiddleSticks.prototype.Verify = Verify;
   };
 });
+

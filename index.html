@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> 
+<html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="theme/cyborg/bootstrap.min.css">
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+    </head>
+    <body>
+		<div class="container-fluid" style="display:none;" data-bind="visible: shouldShow">
+		    <div class="well">
+		       <div class="alert alert-info" data-bind="text: suiteDesc"></div>
+		       <div class="accordion" id="accordion">
+		           <div class="accordion-group">
+		            <div class="accordion-heading">
+		              <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseContextJS" href="#collapseContextJS">
+		                <span class="badge badge-info">CONTEXT SOURCE</span> 
+		              </a>
+		            </div>
+		            <div id="collapseContextJS" class="accordion-body collapse">
+		              <div class="accordion-inner">
+		               <pre><code data-bind="text: jsContextStr"></code></pre>       
+
+		              </div>
+		            </div>
+		          </div>
+		          <div class="accordion-group">
+		            <div class="accordion-heading">
+		              <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseContext" href="#collapseContext"><span class="badge badge-info">CONTEXT BREAKDOWN</span>               
+		              </a>
+		            </div>
+		            <div id="collapseContext" class="accordion-body collapse in">
+		              <div class="accordion-inner">
+		                    <table class="table" id="testCaseList">
+		                    <tbody data-bind="'foreach': testCases">
+		                       <tr>
+		                           <td><label data-bind="text: name"></label></td>
+		                           <td>
+		                            <pre><code data-bind="text: value"></code></pre>       
+		                           </td>
+		                       </tr>
+		                    </tbody>
+		                </table>
+		              </div>
+		            </div>
+		          </div>
+		           <div class="accordion-group">
+		            <div class="accordion-heading">
+		              <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseResults" href="#collapseResults"><span class="badge badge-info">TEST RESULTS</span></a>
+		            </div>
+		            <div id="collapseResults" class="accordion-body collapse in">
+		              <div class="accordion-inner">
+		                    <table class="table" id="results">
+		                    <thead>
+		                        <tr>
+		                            <th>name</th>
+		                            <th>expression</th>
+		                            <th>should.equal</th>
+		                            <th>actual</th>
+		                            <th>typeof</th>
+		                        </tr>
+		                    </thead>
+		                    <tbody data-bind="'foreach': tests">
+		                        <tr data-bind="css: shouldEqual === actual ? 'success' : 'error'">
+		                            <td><code data-bind="text: name"></code></td>
+		                            <td><code data-bind="text: expression"></code></td>
+		                            <td><code data-bind="text: shouldEqual"></code></td>
+		                            <td><code data-bind="text: actual"></code></td>
+		                            <td><code data-bind="text: typeOf"></code></td>
+		                        </tr>
+		                    </tbody>
+		                </table>
+		              </div>
+		            </div>
+		          </div>
+		           <div class="accordion-group">
+		            <div class="accordion-heading">
+		              <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseBenchmarks" href="#collapseBenchmarks">
+		                  <span class="badge badge-info">BENCHMARKS</span><span data-bind="text: benchmarkPlatform" class="badge badge-inverse"></span><span data-bind="text: !benchmarksDone() ? 'RUNNING...': 'COMPLETED', css: benchmarksDone() ? 'badge badge-success' : 'badge badge-warning'"></span>         
+		              </a>
+		               
+		            </div>
+		            <div id="collapseBenchmarks" class="accordion-body collapse in">
+		              <div class="accordion-inner">
+		                  <table class="table">
+		                      <thead>
+		                          <tr>                    
+		                              <th>expression</th>
+		                              <th>times faster</th>
+		                              <th>ops/sec</th>
+		                              <th>+/-</th>
+		                              <th># analysis cycles</th>
+		                              <th># sample cycles</th>
+		                              <th>iterations/sample cycle</th>
+		                          </tr>
+		                      </thead>
+		                      <tbody data-bind="'foreach': benchmarks">
+		                          <tr data-bind="css: fastest() ? 'success' : slowest() ? 'error' : ''">
+		                              <td><code data-bind="text: name"></code></td>
+		                              <td><code style='display:none;' data-bind="text: timesFaster, visible:timesFaster"></code></td> 
+		                              <td><code data-bind="text: hz"></code></td>
+		                              <td><code data-bind="text: relativateMarginError"></code></td>
+		                              <td><code data-bind="text: numAnalysisCycles"></code></td>
+		                              <td><code data-bind="text: numSampleCycles"></code></td>
+		                              <td><code data-bind="text: iterationPerSampleCycle"></code></td>
+		                          </tr>
+		                      </tbody>
+		                  </table>
+		    <button style="display:none;" class='btn btn-large btn-inverse' data-bind="click: run,visible: benchmarksDone">RUN AGAIN</button>
+		              </div>
+		            </div>
+		          </div>
+		        </div>
+		    </div>
+		</div>
+		<script data-main="main.min.js" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.5/require.min.js"></script>
+</body>
+</html>
