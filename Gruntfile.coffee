@@ -64,12 +64,7 @@ module.exports = (grunt) ->
       main:
         src: [r + 'main.js']
         dest: r + 'main.min.js'
-    uglify:
-      mangle:
-        toplevel: true
-        squeeze:
-          dead_code: false
-          codegen: quote_keys: true
+    
     
     # watch:
     #   gruntfile:
