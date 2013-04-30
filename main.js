@@ -1,10 +1,10 @@
 requirejs.config({
   //baseUrl: '/',
   paths: {
-    'FiddleSticks' : 'fiddleSticks.min',
-    'benchmark' : 'scripts.min',
-    'knockout' : 'scripts.min',
-    'jquery' : 'scripts.min'
+    'FiddleSticks' : 'https://raw.github.com/adamjmoon/fiddleSticks/master/fiddleSticks.min',
+    'benchmark' : 'https://raw.github.com/adamjmoon/fiddleSticks/master/scripts.min',
+    'knockout' : 'https://raw.github.com/adamjmoon/fiddleSticks/master/scripts.min',
+    'jquery' : 'https://raw.github.com/adamjmoon/fiddleSticks/master/scripts.min'
   }
 });
 
