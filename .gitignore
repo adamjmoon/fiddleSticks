@@ -62,13 +62,11 @@ ServiceBus*.wsdl
 .idea/
 *app.css
 *app.min.css
-*raphaelCombined*
 core.js
 core.min.js
 *View.js
 *View.min.js
 *scripts.js
-*scripts.min.js
 OneTechnologies.Clients.MemberPortal/Content/js/app/googleMaps.js
 *main.min.js
 *configSettings.js
