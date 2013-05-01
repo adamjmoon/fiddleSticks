@@ -95,7 +95,8 @@
 		                  <table class="table">
 		                      <thead>
 		                          <tr>                    
-		                              <th>expression</th>
+		                              <th>name</th>
+                              		  <th>expression</th>
 		                              <th>times faster</th>
 		                              <th>ops/sec</th>
 		                              <th>+/-</th>
@@ -107,6 +108,7 @@
 		                      <tbody data-bind="'foreach': benchmarks">
 		                          <tr data-bind="css: fastest() ? 'success' : slowest() ? 'error' : ''">
 		                              <td><code data-bind="text: name"></code></td>
+		                              <td><code data-bind="text: expression"></code></td>
 		                              <td><code style='display:none;' data-bind="text: timesFaster, visible:timesFaster"></code></td> 
 		                              <td><code data-bind="text: hz"></code></td>
 		                              <td><code data-bind="text: relativateMarginError"></code></td>
