@@ -5,7 +5,7 @@
  * Modified by John-David Dalton <http://allyoucanleet.com/>
  * Available under MIT license <http://mths.be/mit>
  */
-(function(window, undefined) {
+;(function(window, undefined) {
   'use strict';
 
   /** Detect free variable `define` */

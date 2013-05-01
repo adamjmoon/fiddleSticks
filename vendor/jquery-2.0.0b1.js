@@ -11,7 +11,7 @@
  *
  * Date: 2013-1-14
  */
-(function( window, undefined ) {
+;(function( window, undefined ) {
 "use strict";
 var
 	// A central reference to the root jQuery(document)
