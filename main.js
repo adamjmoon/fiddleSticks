@@ -1,13 +1,12 @@
 requirejs.config({
-  //baseUrl: '/',
   paths: {
-    'FiddleSticks' : 'https://raw.github.com/adamjmoon/fiddleSticks/master/fiddleSticks.min',
-    'benchmark' : 'https://raw.github.com/adamjmoon/fiddleSticks/master/scripts.min',
-    'knockout' : 'https://raw.github.com/adamjmoon/fiddleSticks/master/scripts.min',
-    'jquery' : 'https://raw.github.com/adamjmoon/fiddleSticks/master/scripts.min'
+    'FiddleSticks' : 'https://raw.github.com/adamjmoon/fiddleSticks/master/fiddleSticks',
+    'lodash' : 'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/1.2.0/lodash.min',
+    'platform' : 'https://cdnjs.cloudflare.com/ajax/libs/platform/0.4.0/platform.min',
+    'benchmark' : 'https://raw.github.com/bestiejs/benchmark.js/master/benchmark',
+    'knockout' : 'http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1'
   }
 });
-
 define("context", function() {
   return function context() {
       this.currentDateTime1 = 
@@ -32,12 +31,10 @@ define("context", function() {
   };
 });
 
-define('benchmark',['scripts.min'], function (Benchmark) {return Benchmark});
-
-require(['knockout','jquery','benchmark','FiddleSticks','context'], function(ko, $, Benchmark, fs, context) {
-	
-	 var suite = new (new fs())
-	            .Suite('DateTime tests', context); 
-	 suite.shouldEqual(1).compare(function(c, tc){return c[tc]();}).run();
-	
+require(['FiddleSticks','context'], function(fs, context) {
+  
+   var suite = new (new fs())
+              .Suite('DateTime tests', context); 
+   suite.shouldEqual(1).compare(function(c, tc){return c[tc]();}).run();
+  
 });
