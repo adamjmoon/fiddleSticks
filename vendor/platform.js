@@ -3,7 +3,7 @@
  * Copyright 2010-2013 John-David Dalton <http://allyoucanleet.com/>
  * Available under MIT license <http://mths.be/mit>
  */
-;(function(window) {
+(function(window) {
   'use strict';
 
   /** Backup possible window/global object */

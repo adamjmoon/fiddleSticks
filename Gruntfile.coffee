@@ -48,16 +48,13 @@ module.exports = (grunt) ->
       scripts:
         src: [v+'jquery-2.0.0b1.js',v+'bootstrap.min.js',v+'lodash.min.js',v+'platform.js']
         dest: r + 'scripts.js'
-      scriptsCopy:
-        src: [r + 'scripts.js']
-        dest: r + 'scripts.min.js'
       module: 
         src: [lib + 'suite.js', lib + 'test.js', lib + 'spy.js', lib + 'verify.js', lib + 'fiddleSticks.js']
         dest: r + 'fiddleSticks.js'
     min:
       dist:
         src: [r + 'scripts.js']
-        dest: r + 'scripts.min.js',
+        dest: r + 'scripts.min.js'
       module: 
         src: [r + 'fiddleSticks.js']
         dest: r + 'fiddleSticks.min.js'
