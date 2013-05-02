@@ -1,25 +1,29 @@
 if (Meteor.isClient) {
-
-  Template.hitchscript.created = function(){
-    var theme = 'cyborg';
+  var theme = 'cyborg';
     if(window.location.search.length>1){
       theme = window.location.search.split("=")[1];
     }
 
-    var themeFile = "https://raw.github.com/adamjmoon/fiddleSticks/master/theme/" + theme + "/bootstrap.min.css";
+    var themeFile = 'https://raw.github.com/adamjmoon/fiddleSticks/master/theme/' + theme + '/bootstrap.min.css';
     
-    var fileref=document.createElement("link");
-    fileref.setAttribute("rel", "stylesheet");
-    fileref.setAttribute("type", "text/css");
-    fileref.setAttribute("href", themeFile);
-   
-    if (typeof fileref!="undefined")
-      var head = document.getElementsByTagName("head")[0];
-      head.insertBefore(fileref,head.firstChild);
-    }
+    var cssNode=document.createElement("link");
+    cssNode.type = 'text/css';
+    cssNode.rel = 'stylesheet';
+    cssNode.href = themeFile;
+    cssNode.media = 'all';
+    cssNode.disabled = false;
+    cssNode.targe = '_parent';
+    var head = document.getElementsByTagName("head")[0];
+    head.insertBefore(cssNode,head.firstChild);
+    
 
+  Template.hitchscript.created = function(){
+    
+    
+  };
   Template.hitchscript.rendered = function() {
     
+
     requirejs.config({
       baseUrl: 'http://',
       paths: {  
