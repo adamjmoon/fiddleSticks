@@ -1,7 +1,3 @@
-# This .htaccess file is used to speed up this website
-# See https://github.com/sergeychernyshev/.htaccess
-
-
 # ----------------------------------------------------------------------
 # Proper MIME type for all files
 #
