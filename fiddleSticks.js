@@ -191,12 +191,12 @@ define("Verify", [], function() {
 	};
 });
 define("ThemeManager", [], function() {
-  return function() {
+  return function ThemeManager() {
     self = this;
     self.previousTheme = '';
     self.currentTheme = 'cyborg';
 
-    this.setTheme = function(newTheme){
+    ThemeManager.prototype.setTheme = function(newTheme){
     	if(newTheme != self.currentTheme){
     		self.previousTheme = self.currentTheme;
 	    	self.currentTheme = newTheme;
