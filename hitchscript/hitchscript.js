@@ -20,6 +20,7 @@ if (Meteor.isClient) {
       baseUrl: 'https://',
       paths: {  
         'FiddleSticks' : 'raw.github.com/adamjmoon/fiddleSticks/master/fiddleSticks',
+        'ThemeManager' : 'raw.github.com/adamjmoon/fiddleSticks/master/fiddleSticks',
         'lodash' : 'cdnjs.cloudflare.com/ajax/libs/lodash.js/1.2.0/lodash.min',
         'platform' : 'cdnjs.cloudflare.com/ajax/libs/platform/0.4.0/platform.min',
         'benchmark' : 'raw.github.com/bestiejs/benchmark.js/master/benchmark',
@@ -67,13 +68,10 @@ if (Meteor.isClient) {
       };
     });
 
-    require(['FiddleSticks','context','ThemeManager'], function(fs, context, themeManager) {
+    require(['FiddleSticks','context'], function(fs, context) {
       
-       var th = new ThemeManager();
-       th.setTheme('cyborg');
-       
-       var suite = new (new fs())
-                  .Suite('DateTime tests', context); 
+       var fs = new fs();
+       var suite = new fs.Suite('DateTime tests', context); 
        suite.shouldEqual(1).compare(function(c, tc){return c[tc]();}).run();
       
     });

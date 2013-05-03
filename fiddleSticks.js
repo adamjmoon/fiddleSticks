@@ -1,4 +1,4 @@
-define("Suite", ['Test', 'benchmark','knockout'], function(Test, Benchmark, ko) {
+	define("Suite", ['Test', 'benchmark','knockout','ThemeManager'], function(Test, Benchmark, ko,th) {
 return function(desc, js) {
   	var self = this;  
 	self.suiteDesc = ko.observable(desc);
@@ -11,6 +11,8 @@ return function(desc, js) {
 	self.benchmarksDone = ko.observable(false);
 	self.benchmarkSuite = new Benchmark.Suite;
 	self.benchmarkPlatform = ko.observable(Benchmark.platform.description);
+	self.themeManager = new th();
+	
 	
 	setupTestCases(self.jsContext,'context');	
 	function setupTestCases(context, base){
@@ -192,7 +194,7 @@ define("ThemeManager", [], function() {
   return function() {
     self = this;
     self.previousTheme = '';
-    self.currentTheme = '';
+    self.currentTheme = 'cyborg';
 
     this.setTheme = function(newTheme){
     	if(newTheme != self.currentTheme){
