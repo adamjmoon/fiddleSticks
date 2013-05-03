@@ -46,7 +46,12 @@ module.exports = (grunt) ->
         options: compile: true, compress: true
     concat:
       module: 
-        src: [lib + 'suite.js', lib + 'test.js', lib + 'spy.js', lib + 'verify.js', lib + 'fiddleSticks.js']
+        src: [lib + 'suite.js', 
+              lib + 'test.js', 
+              lib + 'spy.js', 
+              lib + 'verify.js',
+              lib + 'themeManager.js',
+              lib + 'fiddleSticks.js']
         dest: r + 'fiddleSticks.js'
     min:
       module: 

@@ -1,5 +1,6 @@
 if (Meteor.isClient) {
-  
+
+  Template.hitchscript.created = function(){
     // var cssNode=document.createElement("link");
     // cssNode.type = 'text/css';
     // cssNode.rel = 'stylesheet';
@@ -9,9 +10,6 @@ if (Meteor.isClient) {
     // cssNode.targe = '_parent';
     // var head = document.getElementsByTagName("head")[0];
     // head.insertBefore(cssNode,head.firstChild);
-    
-
-  Template.hitchscript.created = function(){
     
     
   };
@@ -26,41 +24,25 @@ if (Meteor.isClient) {
         'platform' : 'cdnjs.cloudflare.com/ajax/libs/platform/0.4.0/platform.min',
         'benchmark' : 'raw.github.com/bestiejs/benchmark.js/master/benchmark',
         'knockout' : 'ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1',
-        'text' : 'raw.github.com/requirejs/text/latest/text'
-      },
-      config: {
-          text: {
-              useXhr: function (url, protocol, hostname, port) {
-                  //Override function for determining if XHR should be used.
-                  //url: the URL being requested
-                  //protocol: protocol of page text.js is running on
-                  //hostname: hostname of page text.js is running on
-                  //port: port of page text.js is running on
-                  //Use protocol, hostname, and port to compare against the url
-                  //being requested.
-                  //Return true or false. true means "use xhr", false means
-                  //"fetch the .js version of this resource".
-                  return true;
-              }
-          }
-      }
+      }//,
+      // config: {
+      //     text: {
+      //         useXhr: function (url, protocol, hostname, port) {
+      //             //Override function for determining if XHR should be used.
+      //             //url: the URL being requested
+      //             //protocol: protocol of page text.js is running on
+      //             //hostname: hostname of page text.js is running on
+      //             //port: port of page text.js is running on
+      //             //Use protocol, hostname, and port to compare against the url
+      //             //being requested.
+      //             //Return true or false. true means "use xhr", false means
+      //             //"fetch the .js version of this resource".
+      //             return false;
+      //         }
+      //     }
+      // }
     });
-    var theme = 'cyborg';
-    if(window.location.search.length>1){
-      theme = window.location.search.split("=")[1];
-    }
-
-    var themeFile = 'https://raw.github.com/adamjmoon/fiddleSticks/master/theme/' + theme + '/bootstrap.min.css';
-
-    require(["text!" + themeFile],
-        function(theme) {
-           var style=document.createElement("style");
-           style.type = 'text/css';
-           style.innerHTML = theme;
-           var head = document.getElementsByTagName("head")[0];
-          head.insertBefore(style,head.firstChild);
-        }
-    );
+    
     define("context", function() {
       return function context() {
           this.currentDateTime1 = 
@@ -85,8 +67,11 @@ if (Meteor.isClient) {
       };
     });
 
-    require(['FiddleSticks','context'], function(fs, context) {
+    require(['FiddleSticks','context','ThemeManager'], function(fs, context, themeManager) {
       
+       var th = new ThemeManager();
+       th.setTheme('cyborg');
+       
        var suite = new (new fs())
                   .Suite('DateTime tests', context); 
        suite.shouldEqual(1).compare(function(c, tc){return c[tc]();}).run();

@@ -188,11 +188,32 @@ define("Verify", [], function() {
 		};
 	};
 });
-define("FiddleSticks", ['Suite', 'Test', 'Spy', 'Verify'], function(Suite, Test, Spy, Verify) {
+define("ThemeManager", [], function() {
+  return function() {
+    self = this;
+    self.previousTheme = '';
+    self.currentTheme = '';
+
+    this.setTheme = function(newTheme){
+    	if(newTheme != self.currentTheme){
+    		self.previousTheme = self.currentTheme;
+	    	self.currentTheme = newTheme;
+			var currentThemeStyle = document.getElementById(newTheme);
+			currentThemeStyle.innerHtml = currentThemeStyle.innerHtml.replace(/\/\*(.*?)\*\//g, "$1");
+			if(self.previousTheme != ''){
+				var previousThemeStyle = document.getElementById(self.previousTheme);
+				previousThemeStyle.innerHtml = '/*' + previousThemeStyle.innerHtml + '*/';
+			}
+    	}
+  	};
+  };
+});
+define("FiddleSticks", ['Suite', 'Test', 'Spy', 'Verify', 'ThemeManager'], function(Suite, Test, Spy, Verify, ThemeManager) {
   return function FiddleSticks() {
 	  FiddleSticks.prototype.Suite = Suite;
 	  FiddleSticks.prototype.Test = Test;
 	  FiddleSticks.prototype.Spy = Spy;
 	  FiddleSticks.prototype.Verify = Verify;
+	  FiddleSticks.prototype.ThemeManager = ThemeManager;
   };
 });
