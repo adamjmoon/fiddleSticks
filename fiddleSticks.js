@@ -201,10 +201,10 @@ define("ThemeManager", [], function() {
     		self.previousTheme = self.currentTheme;
 	    	self.currentTheme = newTheme;
 			var currentThemeStyle = document.getElementById(newTheme);
-			currentThemeStyle.innerHtml = currentThemeStyle.innerHtml.replace(/\/\*(.*?)\*\//g, "$1");
+			currentThemeStyle.innerHTML = currentThemeStyle.innerHTML.replace(/\/\*(.*?)\*\//g, "$1");
 			if(self.previousTheme != ''){
 				var previousThemeStyle = document.getElementById(self.previousTheme);
-				previousThemeStyle.innerHtml = '/*' + previousThemeStyle.innerHtml + '*/';
+				previousThemeStyle.innerHTML = '/*' + previousThemeStyle.innerHTML + '*/';
 			}
     	}
   	};
