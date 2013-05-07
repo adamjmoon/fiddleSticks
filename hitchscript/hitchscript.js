@@ -10,33 +10,10 @@ if (Meteor.isClient) {
         'lodash' : 'cdnjs.cloudflare.com/ajax/libs/lodash.js/1.2.0/lodash.min',
         'platform' : 'cdnjs.cloudflare.com/ajax/libs/platform/0.4.0/platform.min',
         'benchmark' : 'raw.github.com/bestiejs/benchmark.js/master/benchmark',
-        'knockout' : 'ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1',
+        'knockout' : 'ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1'
       }
     });
     
-    define("context", function() {
-      return function context() {
-          this.currentDateTime1 = 
-          function() {
-              var time = new Date().getTime();
-              var date = new Date(time);
-              return date.toString();      
-          };
-          
-          this.currentDateTime2 = 
-          function() {
-              return new Date().toLocaleString();          
-          };
-          this.dateFromMilliseconds = function(){
-              return new Date(Date(('/Date(1366831535554)/').replace(/\/Date\((.*?)\)\//gi, "$1")).toString()).toLocaleString();
-          };
-          
-          this.currentDateMillesondsFrom_Midnight_JUNE_1_1970 = 
-          function() {
-              return new Date().getTime().toString();
-          };
-      };
-    });
 
     require(['FiddleSticks','context'], function(fs, context) {
        var fs = new fs();
